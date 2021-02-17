@@ -1,7 +1,7 @@
 String[] mainmenu = new String[2];
 PVector[] buttons = new PVector[mainmenu.length];
 final int buttonWidth = 200, buttonHeight = 50;
-int click = 0, stage = -1;
+int stage = -1;
 
 void setup() {
   size(800, 800);
