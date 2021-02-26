@@ -1,3 +1,4 @@
+//MainMenuSimple by A.I.
 String[] mainmenu = new String[3];
 PVector[] buttons = new PVector[mainmenu.length];
 final int buttonWidth = 200, buttonHeight = 50;
