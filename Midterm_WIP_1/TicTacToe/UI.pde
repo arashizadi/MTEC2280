@@ -40,20 +40,20 @@ void drawCursor() {
 void gameOver(char a) {
   fill(0, 200);
   rectMode(CENTER);
-  rect(width/2, _height/2 - 25, width, 150);
+  rect(width/2, height/2 - 25, width, 150);
   fill(130);
   textSize(64);
   if (a == 'W') {
     fill(102, 255, 25);
-    text("YOU WON!", width/2, _height/2);
+    text("YOU WON!", width/2, height/2);
   } else if (a == 'L')
   {
     fill(210, 40, 30);
-    text("YOU LOST!", width/2, _height/2);
+    text("YOU LOST!", width/2, height/2);
   } else
   {
     fill(90, 200, 230);
-    text("DRAW!", width/2, _height/2);
+    text("DRAW!", width/2, height/2);
   }
   rectMode(CORNER);
   turn = 0;
