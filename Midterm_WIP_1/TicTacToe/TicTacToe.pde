@@ -5,16 +5,17 @@ PVector[] squares = new PVector[10]; //Eligible coordinates for pieces to move i
 char[] pieces = new char[10]; // '.' = Empty, 'E' = Enemy, 'F' = Friendly
 boolean playerStarts, playerTurn;
 char result = '.';
+String status = "Ready";
+
 void setup() {
   size(600, 650);
   o = loadImage("O.png");
   x = loadImage("X.png");
   imageMode(CENTER);
-  textAlign(CENTER);
   _height = height - 50;
 
 
-  squares[0] = new PVector(-100, -100); //out of the screen
+ //82 squares[0] = new PVector(-100, -100); //out of the screen
   for (int i = 1, x = 100, y = 100; i < squares.length; i++, x += 200) {
     if (x > width) {
       x = 100;
@@ -31,9 +32,10 @@ void setup() {
 
 void draw() {
   drawBoard();
-  drawStatusBar();
   enemyMove();
+  drawStatusBar();
   playerMove();
+  drawStatusBar();
   drawPieces();
   drawCursor();
   if (turn == 0)

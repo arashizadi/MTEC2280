@@ -7,11 +7,13 @@ void drawBoard() {
 }
 
 void drawStatusBar() {
+  textAlign(CORNER);
   fill(20);
   rect(0, _height, width, height - _height);
-    fill(200);
-    textSize(20);
-  text(statusText(), 45, height - 15);
+  fill(200);
+  textSize(20);
+  text(status, 20, height - 15);
+  textAlign(CENTER);
 }
 
 void drawPieces() {
@@ -38,6 +40,8 @@ void drawCursor() {
 }
 
 void gameOver(char a) {
+  status = "Game over";
+    drawStatusBar();
   fill(0, 200);
   rectMode(CENTER);
   rect(width/2, height/2 - 25, width, 150);

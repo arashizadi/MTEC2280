@@ -1,12 +1,16 @@
 void enemyMove() {
   if (turn != 0) {
+    status = "Enemy's turn";
+    drawStatusBar();
     int block = int(random(1, squares.length));
     if (!playerTurn && pieces[block] == '.') {
+      delay(300);
       image(o, squares[block].x, squares[block].y);
       turn--;
-      delay(300);
+      status = "Enemy moved to " + block;
+      drawStatusBar();
       pieces[block] = 'E';
-
+      delay(1000);
       switch (block) {
       case 1: 
         if ((pieces[2]=='E' && pieces[3]=='E') || (pieces[4]=='E' && pieces[7]=='E') || (pieces[5]=='E' && pieces[9]=='E'))
@@ -51,11 +55,13 @@ void enemyMove() {
 }
 
 void playerMove() {
+  status = "Your turn";
   if (turn != 0) {
     selectedBlock();
     if (mousePressed && playerTurn && selectedBlock() != 0 && pieces[selectedBlock()] == '.') {
       turn--;
       pieces[selectedBlock()] = 'F';
+      status = "You moved to " + selectedBlock();
 
       switch (selectedBlock()) {
       case 1: 
@@ -129,11 +135,4 @@ int selectedBlock() {
   else if (mouseX > 400 && mouseX < 600 && mouseY > 400 && mouseY < 600)
     blockNumber = 9;
   return blockNumber;
-}
-
-String statusText(String status) {
-  return status;
-}
-String statusText() {
-  return "Ready";
 }
