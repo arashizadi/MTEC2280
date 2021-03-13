@@ -1,15 +1,10 @@
 void enemyMove() { 
-  if (!playerTurn)
-    status = "Enemy's Turn";
-  drawStatusBar();
   if (currentTime - savedTime > random(1000, 2000))
   {
     if (turn != 0) {
       savedTime = currentTime;
       int block = int(random(1, squares.length));
       if (!playerTurn && pieces[block] == '.') {
-        status = "Enemy moved to " + block;
-        drawStatusBar();
         image(o, squares[block].x, squares[block].y);
         turn--;
         pieces[block] = 'E';
@@ -56,23 +51,16 @@ void enemyMove() {
         playerTurn = !playerTurn;
       }
     }
-  } else {
-    currentTime = millis();
   }
 }
 
 void playerMove() {
-  if (enemyLastBlock == 0)
-    status = "Your turn";
-  else
-    status = "Enemy Moved to block #" + enemyLastBlock + ". Your turn";
   if (turn != 0) {
     selectedBlock();
     if (mousePressed && playerTurn && selectedBlock() != 0 && pieces[selectedBlock()] == '.') {
       turn--;
       pieces[selectedBlock()] = 'F';
-      status = "You moved to " + selectedBlock();
-
+      
       switch (selectedBlock()) {
       case 1: 
         if ((pieces[2]=='F' && pieces[3]=='F') || (pieces[4]=='F' && pieces[7]=='F') || (pieces[5]=='F' && pieces[9]=='F'))

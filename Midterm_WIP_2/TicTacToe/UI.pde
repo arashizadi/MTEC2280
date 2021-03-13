@@ -4,10 +4,17 @@ void drawBoard() {
   for (int i = 0; i < width; i+=200)
     for (int j = 0; j < _height; j+=200)
       rect(i, j, i+200, j+200);
-  drawStatusBar();
 }
 
 void drawStatusBar() {
+  if (!playerTurn && !gameOverBool)
+    status = "Enemy is thinking...";
+  else if (enemyLastBlock == 0 && !gameOverBool)
+    status = "Your turn.";
+  else if (enemyLastBlock > 0 && !gameOverBool)
+    status = "Your turn. Enemy Moved to block #" + enemyLastBlock + ".";
+  else
+    status = "Game over";
   textAlign(CORNER);
   fill(20);
   rect(0, _height, width, height - _height);
@@ -41,8 +48,7 @@ void drawCursor() {
 }
 
 void gameOver(char a) {
-  status = "Game over";
-  drawStatusBar();
+  gameOverBool = true;
   fill(0, 200);
   rectMode(CENTER);
   rect(width/2, height/2 - 25, width, 150);
