@@ -5,7 +5,7 @@ PVector[] squares = new PVector[10]; //Eligible coordinates for pieces to move i
 char[] pieces = new char[10]; // '.' = Empty, 'E' = Enemy, 'F' = Friendly
 boolean playerStarts, playerTurn, gameOverBool;
 char result = '.';
-String status = "Ready";
+String status;
 
 void setup() {
   size(600, 650);
@@ -29,7 +29,6 @@ void setup() {
 }
 
 void draw() {
-  currentTime = millis();
   drawBoard();
   drawStatusBar();
   enemyMove();

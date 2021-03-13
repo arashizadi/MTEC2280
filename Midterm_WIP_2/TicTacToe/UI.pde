@@ -14,7 +14,7 @@ void drawStatusBar() {
   else if (enemyLastBlock > 0 && !gameOverBool)
     status = "Your turn. Enemy Moved to block #" + enemyLastBlock + ".";
   else
-    status = "Game over";
+    status = "Game over.";
   textAlign(CORNER);
   fill(20);
   rect(0, _height, width, height - _height);
@@ -39,9 +39,9 @@ void drawPieces() {
 }
 
 void drawCursor() {
-  if (playerStarts && turn != 0)
+  if (playerStarts && turn != 0 && playerTurn)
     cursor(o, 31, 31);
-  else if (!playerStarts && turn != 0)
+  else if (!playerStarts && turn != 0 && playerTurn)
     cursor(x, 31, 31);
   else
     cursor(ARROW);

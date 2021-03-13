@@ -1,4 +1,5 @@
-void enemyMove() { 
+void enemyMove() {
+  currentTime = millis();
   if (currentTime - savedTime > random(1000, 2000))
   {
     if (turn != 0) {
@@ -60,7 +61,7 @@ void playerMove() {
     if (mousePressed && playerTurn && selectedBlock() != 0 && pieces[selectedBlock()] == '.') {
       turn--;
       pieces[selectedBlock()] = 'F';
-      
+
       switch (selectedBlock()) {
       case 1: 
         if ((pieces[2]=='F' && pieces[3]=='F') || (pieces[4]=='F' && pieces[7]=='F') || (pieces[5]=='F' && pieces[9]=='F'))
