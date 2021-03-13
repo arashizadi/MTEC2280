@@ -1,6 +1,6 @@
 void enemyMove() {
   currentTime = millis();
-  if (currentTime - savedTime > random(1000, 2000))
+  if (currentTime - savedTime > random(900, 1700))
   {
     if (turn != 0) {
       savedTime = currentTime;
@@ -58,6 +58,7 @@ void enemyMove() {
 void playerMove() {
   if (turn != 0) {
     selectedBlock();
+    highlightBlock();
     if (mousePressed && playerTurn && selectedBlock() != 0 && pieces[selectedBlock()] == '.') {
       turn--;
       playerPiecePlaced++;

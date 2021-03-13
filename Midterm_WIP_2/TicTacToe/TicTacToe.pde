@@ -12,6 +12,8 @@ void setup() {
   o = loadImage("O.png");
   x = loadImage("X.png");
   imageMode(CENTER);
+  strokeCap(ROUND);
+
   _height = height - 50;
 
   for (int i = 1, x = 100, y = 100; i < squares.length; i++, x += 200) {

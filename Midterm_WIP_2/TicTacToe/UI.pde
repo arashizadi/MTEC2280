@@ -14,14 +14,22 @@ void drawStatusBar() {
   else if (enemyLastBlock > 0 && !gameOverBool)
     status = "Your turn. Enemy moved to block #" + enemyLastBlock + ".";
   else
-    status = "Game over.";
+    status = "Game over.";  
   textAlign(CORNER);
-  fill(20);
+
+  fill(102, 102, 153);
   rect(0, _height, width, height - _height);
-  fill(200);
-  textSize(20);
+
+  fill(0);
+  textSize(24.12);
+  text(status, 20-0.5, height - 15);
+
+  fill(255);
+  textSize(24);
   text(status, 20, height - 15);
+
   textAlign(CENTER);
+
 
   for (int i = 25; i <= 75 - (playerPiecePlaced * 25); i += 25) {
     if (playerStarts)
@@ -63,6 +71,15 @@ void drawCursor() {
     cursor(x, 31, 31);
   else
     cursor(ARROW);
+}
+
+void highlightBlock() {
+  if (playerTurn && selectedBlock() != 0 && pieces[selectedBlock()] == '.') {
+    fill(55);
+    rectMode(CENTER);
+    rect(squares[selectedBlock()].x, squares[selectedBlock()].y, 200, 200);
+    rectMode(CORNER);
+  }
 }
 
 void gameOver(char a) {
