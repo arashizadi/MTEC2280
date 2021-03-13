@@ -138,3 +138,19 @@ int selectedBlock() {
     blockNumber = 9;
   return blockNumber;
 }
+
+void reset() {
+  turn = 6;
+  enemyLastBlock = 0;
+  playerPiecePlaced = 0;
+  squares = new PVector[10]; //Eligible coordinates for pieces to move into 
+  pieces = new char[10]; // '.' = Empty, 'E' = Enemy, 'F' = Friendly
+  playerStarts = false;
+  playerTurn = false;
+  gameOverBool = false;
+  result = '.';
+  status = "Restarting...";
+  gameOverAccentColor = color(255);
+  savedTime = millis();
+  setup();
+}

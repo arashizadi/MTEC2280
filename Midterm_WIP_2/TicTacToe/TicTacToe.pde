@@ -1,6 +1,6 @@
 //TicTacToe by A.I.
 PImage o, x;
-int _height, turn = 6, currentTime = 0, savedTime = 0, enemyLastBlock = 0, playerPiecePlaced = 0, xGradient = 0;
+int _height, turn = 6, currentTime = 0, savedTime = 0, enemyLastBlock = 0, playerPiecePlaced = 0, xGradient = 0, winCounter = 0, loseCounter = 0, drawCounter = 0;
 PVector[] squares = new PVector[10]; //Eligible coordinates for pieces to move into 
 char[] pieces = new char[10]; // '.' = Empty, 'E' = Enemy, 'F' = Friendly
 boolean playerStarts, playerTurn, gameOverBool;
@@ -14,7 +14,6 @@ void setup() {
   x = loadImage("X.png");
   imageMode(CENTER);
   strokeCap(ROUND);
-
   _height = height - 50;
 
   for (int i = 1, x = 100, y = 100; i < squares.length; i++, x += 200) {
@@ -40,4 +39,8 @@ void draw() {
   drawCursor();
   if (turn == 0)
     gameOver(result);
+    
+   if(turn == 0 && keyPressed){
+    reset();   
+   }
 }

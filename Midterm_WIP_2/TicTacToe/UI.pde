@@ -17,8 +17,6 @@ void drawStatusBar() {
     status = "Game over.";  
   textAlign(CORNER);
 
-
-
   fill(50, 102, 102);
   rect(0, _height, width, height - _height);
 
@@ -35,14 +33,12 @@ void drawStatusBar() {
   xGradient -= 5;
   if (xGradient <= width * -2)
     xGradient = 0;
-  stroke(255);
-
+  
   textAlign(CORNER);
   fill(255);
   textSize(26);
   text(status, 20, height - 15);
   textAlign(CENTER);
-
 
   for (int i = 25; i <= 75 - (playerPiecePlaced * 25); i += 25) {
     if (playerStarts)
@@ -99,12 +95,12 @@ void highlightBlock() {
 //SOURCE: https://processing.org/examples/lineargradient.html
 void setGradient(int x, int y, float w, float h, color c1, color c2) {
   noFill();
-  // Left to right gradient
   for (int i = x; i <= x+w; i++) {
     float inter = map(i, x, x+w, 0, 1);
     color c = lerpColor(c1, c2, inter);
     stroke(c);
     line(i, y, i, y+h);
+    stroke(255);
   }
 }
 
@@ -112,26 +108,32 @@ void setGradient(int x, int y, float w, float h, color c1, color c2) {
 
 void gameOver(char a) {
   gameOverBool = true;
+  
   fill(gameOverAccentColor, 30);
   rectMode(CORNER);
   rect(0, 0, width, _height);
+  
   fill(0, 200);
   rectMode(CENTER);
   stroke(gameOverAccentColor);
   rect(width/2, height/2 - 25, width, 150);
   fill(130);
   textSize(64);
+  
   if (a == 'W') {
+    winCounter++;
     gameOverAccentColor = color(102, 255, 25);
     fill(gameOverAccentColor);
     text("YOU WON!", width/2, height/2);
   } else if (a == 'L')
   {
+    loseCounter++;
     gameOverAccentColor = color(210, 40, 30);
     fill(gameOverAccentColor);
     text("YOU LOST!", width/2, height/2);
   } else
   {
+    drawCounter++;
     gameOverAccentColor = color(90, 200, 230);
     fill(gameOverAccentColor);
     text("DRAW!", width/2, height/2);
