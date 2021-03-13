@@ -17,17 +17,30 @@ void drawStatusBar() {
     status = "Game over.";  
   textAlign(CORNER);
 
-  fill(102, 102, 153);
+
+
+  fill(50, 102, 102);
   rect(0, _height, width, height - _height);
 
-  fill(0);
-  textSize(24.12);
-  text(status, 20-0.5, height - 15);
+  if (playerTurn || gameOverBool) {
+    setGradient(xGradient, _height, width, height - _height, color(102, 102, 153), color(153, 51, 77));
+    setGradient(xGradient + width, _height, width, height - _height, color(153, 51, 77), color(102, 102, 153));
+    setGradient(xGradient + width * 2, _height, width, height - _height, color(102, 102, 153), color(153, 51, 77));
+  } else {
+    setGradient(xGradient, _height, width, height - _height, color(102, 102, 153, 100), color(153, 51, 77, 100));
+    setGradient(xGradient + width, _height, width, height - _height, color(153, 51, 77, 100), color(102, 102, 153, 100));
+    setGradient(xGradient + width * 2, _height, width, height - _height, color(102, 102, 153, 100), color(153, 51, 77, 100));
+  }
 
+  xGradient -= 5;
+  if (xGradient <= width * -2)
+    xGradient = 0;
+  stroke(255);
+
+  textAlign(CORNER);
   fill(255);
-  textSize(24);
+  textSize(26);
   text(status, 20, height - 15);
-
   textAlign(CENTER);
 
 
@@ -82,27 +95,50 @@ void highlightBlock() {
   }
 }
 
+
+//SOURCE: https://processing.org/examples/lineargradient.html
+void setGradient(int x, int y, float w, float h, color c1, color c2) {
+  noFill();
+  // Left to right gradient
+  for (int i = x; i <= x+w; i++) {
+    float inter = map(i, x, x+w, 0, 1);
+    color c = lerpColor(c1, c2, inter);
+    stroke(c);
+    line(i, y, i, y+h);
+  }
+}
+
+
+
 void gameOver(char a) {
   gameOverBool = true;
+  fill(gameOverAccentColor, 30);
+  rectMode(CORNER);
+  rect(0, 0, width, _height);
   fill(0, 200);
   rectMode(CENTER);
+  stroke(gameOverAccentColor);
   rect(width/2, height/2 - 25, width, 150);
   fill(130);
   textSize(64);
   if (a == 'W') {
-    fill(102, 255, 25);
+    gameOverAccentColor = color(102, 255, 25);
+    fill(gameOverAccentColor);
     text("YOU WON!", width/2, height/2);
   } else if (a == 'L')
   {
-    fill(210, 40, 30);
+    gameOverAccentColor = color(210, 40, 30);
+    fill(gameOverAccentColor);
     text("YOU LOST!", width/2, height/2);
   } else
   {
-    fill(90, 200, 230);
+    gameOverAccentColor = color(90, 200, 230);
+    fill(gameOverAccentColor);
     text("DRAW!", width/2, height/2);
   }
   rectMode(CORNER);
   turn = 0;
   if (result == '.')
     result = a;
+  stroke(255);
 }

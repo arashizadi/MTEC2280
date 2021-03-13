@@ -1,11 +1,12 @@
 //TicTacToe by A.I.
 PImage o, x;
-int _height, turn = 6, currentTime = 0, savedTime = 0, enemyLastBlock = 0, playerPiecePlaced = 0;
+int _height, turn = 6, currentTime = 0, savedTime = 0, enemyLastBlock = 0, playerPiecePlaced = 0, xGradient = 0;
 PVector[] squares = new PVector[10]; //Eligible coordinates for pieces to move into 
 char[] pieces = new char[10]; // '.' = Empty, 'E' = Enemy, 'F' = Friendly
 boolean playerStarts, playerTurn, gameOverBool;
 char result = '.';
 String status;
+color gameOverAccentColor = color(255);
 
 void setup() {
   size(600, 650);
