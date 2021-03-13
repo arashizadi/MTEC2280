@@ -60,6 +60,7 @@ void playerMove() {
     selectedBlock();
     if (mousePressed && playerTurn && selectedBlock() != 0 && pieces[selectedBlock()] == '.') {
       turn--;
+      playerPiecePlaced++;
       pieces[selectedBlock()] = 'F';
 
       switch (selectedBlock()) {

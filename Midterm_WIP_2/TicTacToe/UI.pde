@@ -12,7 +12,7 @@ void drawStatusBar() {
   else if (enemyLastBlock == 0 && !gameOverBool)
     status = "Your turn.";
   else if (enemyLastBlock > 0 && !gameOverBool)
-    status = "Your turn. Enemy Moved to block #" + enemyLastBlock + ".";
+    status = "Your turn. Enemy moved to block #" + enemyLastBlock + ".";
   else
     status = "Game over.";
   textAlign(CORNER);
@@ -22,6 +22,24 @@ void drawStatusBar() {
   textSize(20);
   text(status, 20, height - 15);
   textAlign(CENTER);
+
+  for (int i = 25; i <= 75 - (playerPiecePlaced * 25); i += 25) {
+    if (playerStarts)
+      if (playerTurn && (75 - (playerPiecePlaced * 25) - i) == 0) { //while piece is in hand, apply transparency
+        tint(255, 100);
+        image(o, width - i, height - 23.5, 20, 20);
+        tint(255, 255);
+      } else
+        image(o, width - i, height - 23.5, 20, 20);
+
+    else
+      if (playerTurn && (75 - (playerPiecePlaced * 25) - i) == 0) { //while piece is in hand, apply transparency
+        tint(255, 100);
+        image(x, width - i, height - 23.5, 20, 20);
+        tint(255, 255);
+      } else
+        image(x, width - i, height - 23.5, 20, 20);
+  }
 }
 
 void drawPieces() {
