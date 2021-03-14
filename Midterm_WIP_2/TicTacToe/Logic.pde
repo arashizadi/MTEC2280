@@ -156,8 +156,34 @@ void nextLevel() {
 }
 
 void mouseReleased() {
-  translate(width/2, height/2);
-  if (turn == 0 && mouseX - (width/2) >= 50 - (width/2) && mouseX - (width/2) <= (50 - (width/2) + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60)
-    resetBool = true;
+  if (mainMenuBool) {
+    translate(width/2, height/2);
+    //Start Game click event
+    if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 0 && mouseY - (height/2) <= 60) {
+      mainMenuBool = false;
+      nextLevel();
+    }  //Option click event
+    else if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 100 && mouseY - (height/2) <= 160) {
+    }  //Exit click event
+    else if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 200 && mouseY - (height/2) <= 260) {
+      exit();
+    }
+    translate(-width/2, -height/2);
+  }
+
+
+  if (gameOverBool) {
+    translate(width/2, height/2);
+    //Continue event click
+    if (turn == 0 && mouseX - (width/2) >= 50 - (width/2) && mouseX - (width/2) <= (50 - (width/2) + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60)
+      resetBool = true;
+    //Main Menu click event
+    else if (mouseX - (width/2) >= 50 && mouseX - (width/2) <= (50 + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60) {
+      mainMenuBool = true;
+      winCounter = 0; 
+      loseCounter = 0;
+      drawCounter = 0;
+    }
+  }
   translate(-width/2, -height/2);
 }
