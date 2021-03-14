@@ -155,33 +155,64 @@ void nextLevel() {
   setup();
 }
 
+void loadScreen(){
+imageMode(CORNER);
+  image(loadingTop, 0, -(height/2) + yTransition1);
+  image(loadingBottom, 0, 650 + yTransition2);
+  imageMode(CENTER);
+
+  if (transition == "T1") {
+    yTransition1 += yTransitionSpeed;
+    yTransition2 -= yTransitionSpeed;
+    if (yTransition1 > 325 && yTransition2 < -325 && transition == "T1") {
+      if (page == "MainMenu") {
+        mainMenuBool = true;
+        winCounter = 0; 
+        loseCounter = 0;
+        drawCounter = 0;
+      } else if (page == "Game") {
+        mainMenuBool = false;
+        nextLevel();
+      } else if (page == "Exit")
+        exit();
+      transition = "T2";
+    }
+  } 
+  if (transition == "T2") {
+    yTransition1 -= yTransitionSpeed;
+    yTransition2 += yTransitionSpeed;
+    if (yTransition1 < -10 && yTransition2 > 10) {
+      yTransition1 = 0;
+      yTransition2 = 0;
+      transition = "T0";
+    }
+  }
+}
+
 void mouseReleased() {
-  if (mainMenuBool) {
+  if (mainMenuBool && transition == "T0") {
     translate(width/2, height/2);
     //Start Game click event
     if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 0 && mouseY - (height/2) <= 60) {
-      mainMenuBool = false;
-      nextLevel();
+      transition = "T1";
+      page = "Game";
     }  //Option click event
     else if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 100 && mouseY - (height/2) <= 160) {
     }  //Exit click event
     else if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 200 && mouseY - (height/2) <= 260) {
-      exit();
+      transition = "T1";
+      page = "Exit";
     }
     translate(-width/2, -height/2);
-  }
-
-  else if (gameOverBool) {
+  } else if (gameOverBool && transition == "T0") {
     translate(width/2, height/2);
     //Continue event click
     if (turn == 0 && mouseX - (width/2) >= 50 - (width/2) && mouseX - (width/2) <= (50 - (width/2) + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60)
       resetBool = true;
     //Main Menu click event
     else if (mouseX - (width/2) >= 50 && mouseX - (width/2) <= (50 + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60) {
-      mainMenuBool = true;
-      winCounter = 0; 
-      loseCounter = 0;
-      drawCounter = 0;
+      transition = "T1";
+      page = "MainMenu";
     }
   }
   translate(-width/2, -height/2);

@@ -1,11 +1,11 @@
 //TicTacToe by A.I.
-PImage o, x;
-int _height, turn = 6, currentTime = 0, savedTime = 0, enemyLastBlock = 0, playerPiecePlaced = 0, xGradient = 0, winCounter = 0, loseCounter = 0, drawCounter = 0;
+PImage o, x, loadingTop, loadingBottom;
+int _height, turn = 6, currentTime = 0, savedTime = 0, enemyLastBlock = 0, playerPiecePlaced = 0, xGradient = 0, winCounter = 0, loseCounter = 0, drawCounter = 0, yTransition1 = 0, yTransition2 = 0, yTransitionSpeed = 7;
 PVector[] squares = new PVector[10]; //Eligible coordinates for pieces to move into 
 char[] pieces = new char[10]; // '.' = Empty, 'E' = Enemy, 'F' = Friendly
 boolean playerStarts, playerTurn, gameOverBool, resetBool, mainMenuBool = true;
 char result = '.';
-String status, ver = "0.28 alpha";
+String status, transition = "T0", page = "", ver = "0.28 alpha";
 color gameOverAccentColor = color(255);
 PFont font;
 
@@ -13,7 +13,9 @@ void setup() {
   size(600, 650);
   o = loadImage("O.png");
   x = loadImage("X.png");
-  font = createFont("BAUHS93.TTF",64);
+  loadingTop = loadImage("loadingtop.png");
+  loadingBottom = loadImage("loadingbottom.png");
+  font = createFont("BAUHS93.TTF", 64);
   imageMode(CENTER);
   strokeCap(ROUND);
   textFont(font);
@@ -46,4 +48,5 @@ void draw() {
     if (turn == 0)
       gameOver(result);
   }
+  loadScreen();
 }
