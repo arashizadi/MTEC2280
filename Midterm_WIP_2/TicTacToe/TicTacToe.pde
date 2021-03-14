@@ -3,7 +3,7 @@ PImage o, x;
 int _height, turn = 6, currentTime = 0, savedTime = 0, enemyLastBlock = 0, playerPiecePlaced = 0, xGradient = 0, winCounter = 0, loseCounter = 0, drawCounter = 0;
 PVector[] squares = new PVector[10]; //Eligible coordinates for pieces to move into 
 char[] pieces = new char[10]; // '.' = Empty, 'E' = Enemy, 'F' = Friendly
-boolean playerStarts, playerTurn, gameOverBool;
+boolean playerStarts, playerTurn, gameOverBool, resetBool;
 char result = '.';
 String status;
 color gameOverAccentColor = color(255);
@@ -39,8 +39,4 @@ void draw() {
   drawCursor();
   if (turn == 0)
     gameOver(result);
-    
-   if(turn == 0 && keyPressed){
-    reset();   
-   }
 }

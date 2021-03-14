@@ -33,7 +33,7 @@ void drawStatusBar() {
   xGradient -= 5;
   if (xGradient <= width * -2)
     xGradient = 0;
-  
+
   textAlign(CORNER);
   fill(255);
   textSize(26);
@@ -104,43 +104,74 @@ void setGradient(int x, int y, float w, float h, color c1, color c2) {
   }
 }
 
-
-
 void gameOver(char a) {
-  gameOverBool = true;
-  
   fill(gameOverAccentColor, 30);
   rectMode(CORNER);
   rect(0, 0, width, _height);
-  
+
   fill(0, 200);
   rectMode(CENTER);
   stroke(gameOverAccentColor);
-  rect(width/2, height/2 - 25, width, 150);
+  rect(width/2, height/2 - 25, width, 300);
   fill(130);
   textSize(64);
-  
+
   if (a == 'W') {
-    winCounter++;
+    if (!gameOverBool) {
+      winCounter++;
+      gameOverBool = true;
+    }
     gameOverAccentColor = color(102, 255, 25);
     fill(gameOverAccentColor);
-    text("YOU WON!", width/2, height/2);
+    text("YOU WON!", width/2, height/3+25);
   } else if (a == 'L')
   {
-    loseCounter++;
+    if (!gameOverBool) {
+      loseCounter++;
+      gameOverBool = true;
+    }
     gameOverAccentColor = color(210, 40, 30);
     fill(gameOverAccentColor);
-    text("YOU LOST!", width/2, height/2);
+    text("YOU LOST!", width/2, height/3+25);
   } else
   {
-    drawCounter++;
+    if (!gameOverBool) {
+      drawCounter++;
+      gameOverBool = true;
+    }
     gameOverAccentColor = color(90, 200, 230);
     fill(gameOverAccentColor);
-    text("DRAW!", width/2, height/2);
+    text("DRAW!", width/2, height/3+25);
   }
+  textSize(24);
+  text("Wins: " + winCounter + " | Draws: " + drawCounter + " | Losses: " + loseCounter, width/2, height/2); 
+
   rectMode(CORNER);
+  translate(width/2, height/2);
+  noFill();
+  rect(50 - (width/2), 32, 200, 60);
+  rect(50, 32, 200, 60);
+  //Continue button mouseover
+  if (mouseX - (width/2) >= 50 - (width/2) && mouseX - (width/2) <= (50 - (width/2) + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60) {
+    fill(gameOverAccentColor, 100);
+    rect(50 - (width/2), 32, 200, 60);
+    fill(gameOverAccentColor);
+  }  //MainMenu button mouseover
+  else if (mouseX - (width/2) >= 50 && mouseX - (width/2) <= (50 + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60) {
+    fill(gameOverAccentColor, 100);
+    rect(50, 32, 200, 60);
+    fill(gameOverAccentColor);
+  }
+  translate(-width/2, -height/2);
+  text("Continue", (width/2)/2, (height*2)/3-38); 
+  text("Main Menu", (width/2)/2 + width/2, (height*2)/3-38); 
+
   turn = 0;
   if (result == '.')
     result = a;
   stroke(255);
+
+  if (turn == 0 && resetBool) {
+    nextLevel();
+  }
 }

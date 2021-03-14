@@ -139,7 +139,9 @@ int selectedBlock() {
   return blockNumber;
 }
 
-void reset() {
+void nextLevel() {
+  gameOverBool = false;
+  resetBool = false;
   turn = 6;
   enemyLastBlock = 0;
   playerPiecePlaced = 0;
@@ -147,10 +149,15 @@ void reset() {
   pieces = new char[10]; // '.' = Empty, 'E' = Enemy, 'F' = Friendly
   playerStarts = false;
   playerTurn = false;
-  gameOverBool = false;
   result = '.';
-  status = "Restarting...";
   gameOverAccentColor = color(255);
   savedTime = millis();
   setup();
+}
+
+void mouseReleased() {
+  translate(width/2, height/2);
+  if (turn == 0 && mouseX - (width/2) >= 50 - (width/2) && mouseX - (width/2) <= (50 - (width/2) + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60)
+    resetBool = true;
+  translate(-width/2, -height/2);
 }
