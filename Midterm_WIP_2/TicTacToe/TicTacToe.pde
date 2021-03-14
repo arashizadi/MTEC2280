@@ -5,7 +5,7 @@ PVector[] squares = new PVector[10]; //Eligible coordinates for pieces to move i
 char[] pieces = new char[10]; // '.' = Empty, 'E' = Enemy, 'F' = Friendly
 boolean playerStarts, playerTurn, gameOverBool, resetBool, mainMenuBool = true;
 char result = '.';
-String status, transition = "T0", page = "", ver = "0.28 alpha";
+String status, transition = "T0", page = "", ver = "0.29 alpha";
 color gameOverAccentColor = color(255);
 PFont font;
 
