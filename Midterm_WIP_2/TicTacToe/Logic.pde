@@ -171,8 +171,7 @@ void mouseReleased() {
     translate(-width/2, -height/2);
   }
 
-
-  if (gameOverBool) {
+  else if (gameOverBool) {
     translate(width/2, height/2);
     //Continue event click
     if (turn == 0 && mouseX - (width/2) >= 50 - (width/2) && mouseX - (width/2) <= (50 - (width/2) + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60)

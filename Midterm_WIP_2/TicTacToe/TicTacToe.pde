@@ -5,15 +5,18 @@ PVector[] squares = new PVector[10]; //Eligible coordinates for pieces to move i
 char[] pieces = new char[10]; // '.' = Empty, 'E' = Enemy, 'F' = Friendly
 boolean playerStarts, playerTurn, gameOverBool, resetBool, mainMenuBool = true;
 char result = '.';
-String status, ver = "0.26 alpha";
+String status, ver = "0.28 alpha";
 color gameOverAccentColor = color(255);
+PFont font;
 
 void setup() {
   size(600, 650);
   o = loadImage("O.png");
   x = loadImage("X.png");
+  font = createFont("BAUHS93.TTF",64);
   imageMode(CENTER);
   strokeCap(ROUND);
+  textFont(font);
   _height = height - 50;
 
   for (int i = 1, x = 100, y = 100; i < squares.length; i++, x += 200) {
@@ -31,16 +34,16 @@ void setup() {
 }
 
 void draw() {
-    if(!mainMenuBool){
-  drawBoard();
-  drawStatusBar();
-  enemyMove();
-  playerMove();
-  drawPieces();
-  drawCursor();
-  if (turn == 0)
-    gameOver(result);
-  }
-  else
+  if (mainMenuBool)
     drawMainMenu();
+  else {
+    drawBoard();
+    drawStatusBar();
+    enemyMove();
+    playerMove();
+    drawPieces();
+    drawCursor();
+    if (turn == 0)
+      gameOver(result);
+  }
 }
