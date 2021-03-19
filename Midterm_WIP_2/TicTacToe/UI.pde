@@ -22,17 +22,17 @@ void drawMainMenu() {
   //Start Game button mouseover
   if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 0 && mouseY - (height/2) <= 60) {
     fill(255, 100);
-  rect(-100, 0, 200, 60);
+    rect(-100, 0, 200, 60);
     fill(255);
   }  //Option button mouseover
   else if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 100 && mouseY - (height/2) <= 160) {
     fill(255, 100);
-  rect(-100, 100, 200, 60);
+    rect(-100, 100, 200, 60);
     fill(255);
   }  //Exit button mouseover
   else if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 200 && mouseY - (height/2) <= 260) {
     fill(255, 100);
-  rect(-100, 200, 200, 60);
+    rect(-100, 200, 200, 60);
     fill(255);
   }
 
@@ -136,7 +136,6 @@ void highlightBlock() {
   }
 }
 
-
 //SOURCE: https://processing.org/examples/lineargradient.html
 void setGradient(int x, int y, float w, float h, color c1, color c2) {
   noFill();
@@ -209,13 +208,13 @@ void gameOver(char a) {
   }
   translate(-width/2, -height/2);
   text("Continue", (width/2)/2, (height*2)/3-38); 
-  text("Main Menu", (width/2)/2 + width/2, (height*2)/3-38); 
+  text("Conclude", (width/2)/2 + width/2, (height*2)/3-38); 
 
   turn = 0;
   if (result == '.')
     result = a;
   stroke(255);
-
+  playerScore = (6 * winCounter) - (1 * drawCounter) - (7 * loseCounter);
   if (turn == 0 && resetBool) {
     nextLevel();
   }

@@ -155,8 +155,85 @@ void nextLevel() {
   setup();
 }
 
-void loadScreen(){
-imageMode(CORNER);
+void drawScoreBoard() {
+  textAlign(CORNER);
+  setGradient(xGradient, 0, width, height, color(102, 102, 153), color(153, 51, 77));
+  setGradient(xGradient + width, 0, width, height, color(153, 51, 77), color(102, 102, 153));
+  setGradient(xGradient + width * 2, 0, width, height, color(102, 102, 153), color(153, 51, 77));
+  xGradient--;
+  if (xGradient <= width * -2)
+    xGradient = 0;
+  if (playerNameTextInputBool && !leaderBoardBool)
+  {
+    fill(255);
+    textSize(18);
+    text("Type your name and press ENTER to Continue", 120, 280);
+
+    translate(width/2, height/2);
+    textSize(14);
+    rect(0 - 100, 0 - 20, 200, 40);
+    fill(0);
+    textSize(16);
+    text(textInput, -90, 5);
+    if (currentTime - savedTime > 500) {
+      showCaret = !showCaret;
+      savedTime = currentTime;
+    }
+    if (showCaret) {
+      stroke(0);
+      line (-90 + textWidth(textInput), -10, -90 + textWidth(textInput), 10);
+    }
+    translate(-width/2, -height/2);
+  } else if (leaderBoardBool) {
+    fill(255);
+    textAlign(CENTER);
+    textSize(24);
+    text("LEADERBOARD", width/2, 100);
+    textSize(14);
+    text("Press any key to Main Menu", width/2, 120);
+    textSize(16);
+    if (xGradient <= width * -2)
+      xGradient = 0;
+    xml = loadXML("ScoreBoard.xml");
+    children = xml.getChildren("Record");
+    String[] orderedScores = new String[children.length];
+    String[] originalScores = new String[children.length];
+    String[] names = new String[children.length];
+    int[] orderIndexScores = new int[children.length];
+
+    for (int i = 0; i < children.length; i++) {
+      originalScores[i] = children[i].getChild("Score").getContent();
+      orderedScores[i] = children[i].getChild("Score").getContent();
+      names[i] = children[i].getChild("Name").getContent();
+    }
+    orderedScores = reverse(orderedScores);
+    for (int i = 0; i < orderedScores.length; i++)
+    {
+      for (int j = 0; j < originalScores.length; j++)
+      {
+        if (originalScores[j] == orderedScores[i])
+          orderIndexScores[i] = j;
+      }
+    }
+
+    for (int i = 0; i < orderedScores.length; i++) {
+      fill(255);
+      textAlign(LEFT);
+      text(names[orderIndexScores[i]], 180, (height/4) + 50 + i * 20);
+      textAlign(RIGHT);
+      text(orderedScores[i], 180  + (width/2 - 60), (height/4) + 50 + i * 20);
+    }
+  }
+}
+
+//SOURCE: https://www.javatpoint.com/how-to-remove-last-character-from-string-in-java#:~:text=%20There%20are%20four%20ways%20to%20remove%20the,%28%29%20Method%204%20Using%20Regular%20Expression%20More%20
+String removeLastCharacter(String str)   
+{  
+  return (str == null) ? null : str.replaceAll(".$", "");
+}  
+
+void loadScreen() {
+  imageMode(CORNER);
   image(loadingTop, 0, -(height/2) + yTransition1);
   image(loadingBottom, 0, 650 + yTransition2);
   imageMode(CENTER);
@@ -166,6 +243,7 @@ imageMode(CORNER);
     yTransition2 -= yTransitionSpeed;
     if (yTransition1 > 325 && yTransition2 < -325 && transition == "T1") {
       if (page == "MainMenu") {
+        leaderBoardBool = false;
         mainMenuBool = true;
         winCounter = 0; 
         loseCounter = 0;
@@ -173,6 +251,8 @@ imageMode(CORNER);
       } else if (page == "Game") {
         mainMenuBool = false;
         nextLevel();
+      } else if (page == "ScoreBoard") {
+        playerNameTextInputBool = true;
       } else if (page == "Exit")
         exit();
       transition = "T2";
@@ -212,8 +292,32 @@ void mouseReleased() {
     //Main Menu click event
     else if (mouseX - (width/2) >= 50 && mouseX - (width/2) <= (50 + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60) {
       transition = "T1";
-      page = "MainMenu";
+      page = "ScoreBoard";
     }
   }
   translate(-width/2, -height/2);
+}
+
+void keyTyped() {
+  if (playerNameTextInputBool && !leaderBoardBool && transition == "T0") {
+    if (key == BACKSPACE) {
+      textInput = removeLastCharacter(textInput);
+    } else if (key == ENTER) {
+      playerName = textInput;
+      XML newRecord = xml.addChild("Record");
+      XML newName = newRecord.addChild("Name");
+      XML newScore = newRecord.addChild("Score");
+      newName.setContent(textInput);
+      newScore.setContent(nf(playerScore, 4));
+      saveXML(xml, "/data/ScoreBoard.xml");
+      leaderBoardBool = true;
+      playerNameTextInputBool = false;
+    } else if (textWidth(textInput) < 178.0625) {
+      charInput = key;
+      textInput += str(charInput);
+    }
+  } else if ((gameOverBool && transition == "T0" && leaderBoardBool)) {
+    page = "MainMenu";
+    transition = "T1";
+  }
 }

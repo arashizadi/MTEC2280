@@ -1,13 +1,15 @@
 //TicTacToe by A.I.
 PImage o, x, loadingTop, loadingBottom;
-int _height, turn = 6, currentTime = 0, savedTime = 0, enemyLastBlock = 0, playerPiecePlaced = 0, xGradient = 0, winCounter = 0, loseCounter = 0, drawCounter = 0, yTransition1 = 0, yTransition2 = 0, yTransitionSpeed = 7;
+int _height, turn = 6, currentTime = 0, savedTime = 0, enemyLastBlock = 0, playerPiecePlaced = 0, xGradient = 0, winCounter = 0, loseCounter = 0, drawCounter = 0, playerScore, yTransition1 = 0, yTransition2 = 0, yTransitionSpeed = 7;
 PVector[] squares = new PVector[10]; //Eligible coordinates for pieces to move into 
 char[] pieces = new char[10]; // '.' = Empty, 'E' = Enemy, 'F' = Friendly
-boolean playerStarts, playerTurn, gameOverBool, resetBool, mainMenuBool = true;
-char result = '.';
-String status, transition = "T0", page = "", ver = "0.29 alpha";
+boolean playerStarts, playerTurn, gameOverBool, resetBool, mainMenuBool = true, playerNameTextInputBool, leaderBoardBool, showCaret;
+char result = '.', charInput;
+String status, transition = "T0", page = "", playerName, textInput = "", ver = "0.43 alpha";
 color gameOverAccentColor = color(255);
 PFont font;
+XML xml;
+XML[] children;
 
 void setup() {
   size(600, 650);
@@ -15,6 +17,7 @@ void setup() {
   x = loadImage("X.png");
   loadingTop = loadImage("loadingtop.png");
   loadingBottom = loadImage("loadingbottom.png");
+  xml = loadXML("ScoreBoard.xml");
   font = createFont("BAUHS93.TTF", 64);
   imageMode(CENTER);
   strokeCap(ROUND);
@@ -38,6 +41,8 @@ void setup() {
 void draw() {
   if (mainMenuBool)
     drawMainMenu();
+  else if (playerNameTextInputBool || leaderBoardBool)
+    drawScoreBoard();
   else {
     drawBoard();
     drawStatusBar();
