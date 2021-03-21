@@ -2,7 +2,7 @@ void enemyMove() {
   currentTime = millis();
   if (currentTime - savedTime > random(900, 1700))
   {
-    if (turn != 0) {
+    if (turn != 0 && !inGameMenu) {
       savedTime = currentTime;
       int block = int(random(1, squares.length));
       if (!playerTurn && pieces[block] == '.') {
@@ -56,7 +56,7 @@ void enemyMove() {
 }
 
 void playerMove() {
-  if (turn != 0) {
+  if (turn != 0 && !inGameMenu) {
     selectedBlock();
     highlightBlock();
     if (mousePressed && playerTurn && selectedBlock() != 0 && pieces[selectedBlock()] == '.') {
@@ -108,25 +108,25 @@ void playerMove() {
   }
 }
 
-String lineAnimationPath(){
+String lineAnimationPath() {
   if (pieces[1]=='F' && pieces[2]=='F' && pieces[3]=='F' || pieces[1]=='E' && pieces[2]=='E' && pieces[3]=='E')
-  return "13";
+    return "13";
   else if (pieces[4]=='F' && pieces[5]=='F' && pieces[6]=='F' || pieces[4]=='E' && pieces[5]=='E' && pieces[6]=='E')
-  return "46";
+    return "46";
   else if (pieces[7]=='F' && pieces[8]=='F' && pieces[9]=='F' || pieces[7]=='E' && pieces[8]=='E' && pieces[9]=='E')
-  return "79";
+    return "79";
   else if (pieces[1]=='F' && pieces[4]=='F' && pieces[7]=='F' || pieces[1]=='E' && pieces[4]=='E' && pieces[7]=='E')
-  return "17";
+    return "17";
   else if (pieces[2]=='F' && pieces[5]=='F' && pieces[8]=='F' || pieces[2]=='E' && pieces[5]=='E' && pieces[8]=='E')
-  return "28";
+    return "28";
   else if (pieces[3]=='F' && pieces[6]=='F' && pieces[9]=='F' || pieces[3]=='E' && pieces[6]=='E' && pieces[9]=='E')
-  return "39";
+    return "39";
   else if (pieces[1]=='F' && pieces[5]=='F' && pieces[9]=='F' || pieces[1]=='E' && pieces[5]=='E' && pieces[9]=='E')
-  return "19";
+    return "19";
   else if (pieces[3]=='F' && pieces[5]=='F' && pieces[7]=='F' || pieces[3]=='E' && pieces[5]=='E' && pieces[7]=='E')
-  return "73";
+    return "73";
   else
-  return "";
+    return "";
 }
 
 boolean rngPlayerAssignment() {
@@ -272,12 +272,15 @@ void loadScreen() {
         winCounter = 0; 
         loseCounter = 0;
         drawCounter = 0;
+        inGameMenu = false;
       } else if (page == "Game") {
         mainMenuBool = false;
         nextLevel();
-      } else if (page == "ScoreBoard") {
+      } else if (page == "ScoreBoard")
         playerNameTextInputBool = true;
-      } else if (page == "Exit")
+      else if (page == "LeaderBoard")
+        leaderBoardBool = true;
+      else if (page == "Exit")
         exit();
       transition = "T2";
     }
@@ -294,12 +297,19 @@ void loadScreen() {
 }
 
 void mouseReleased() {
-  if (mainMenuBool && transition == "T0") {
+  if (leaderBoardBool) {
+    transition = "T1";
+    page = "MainMenu";
+  } else if (mainMenuBool && transition == "T0") {
     translate(width/2, height/2);
     //Start Game click event
-    if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 0 && mouseY - (height/2) <= 60) {
+    if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= -100 && mouseY - (height/2) <= -40) {
       transition = "T1";
       page = "Game";
+    }  //Leaderboard click event
+    else if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 0 && mouseY - (height/2) <= 60) {
+      transition = "T1";
+      page = "LeaderBoard";
     }  //Option click event
     else if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 100 && mouseY - (height/2) <= 160) {
     }  //Exit click event
@@ -308,7 +318,7 @@ void mouseReleased() {
       page = "Exit";
     }
     translate(-width/2, -height/2);
-  } else if (gameOverBool && transition == "T0") {
+  } else if (gameOverBool && transition == "T0" && !playerNameTextInputBool) {
     translate(width/2, height/2);
     //Continue event click
     if (turn == 0 && mouseX - (width/2) >= 50 - (width/2) && mouseX - (width/2) <= (50 - (width/2) + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60)
@@ -318,13 +328,40 @@ void mouseReleased() {
       transition = "T1";
       page = "ScoreBoard";
     }
-      translate(-width/2, -height/2);
- //<>//
+    translate(-width/2, -height/2);
+  } else if (inGameMenu && transition == "T0" && !playerNameTextInputBool) {
+    translate(width/2, height/2);
+    //Resume event click
+    if (mouseX - (width/2) >= 50 - (width/2) && mouseX - (width/2) <= (50 - (width/2) + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60)
+      inGameMenu = false;
+    //Main Menu click event
+    else if (mouseX - (width/2) >= 50 && mouseX - (width/2) <= (50 + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60) {
+      transition = "T1";
+      page = "ScoreBoard";
+    }
+    translate(-width/2, -height/2);
   }
 }
-
+void keyPressed() {
+  if (key == ESC && !mainMenuBool) {
+    key = 0;
+  }
+}
 void keyTyped() {
-  if (playerNameTextInputBool && !leaderBoardBool && transition == "T0") {
+  if (key == ESC) {    
+    if (!playerNameTextInputBool && !leaderBoardBool && transition == "T0") {
+      if (!inGameMenu)
+        inGameMenu = true;
+      else if (inGameMenu)
+        inGameMenu = false;
+    } else if (playerNameTextInputBool && !leaderBoardBool && transition == "T0") {
+      leaderBoardBool = true;
+      playerNameTextInputBool = false;
+    } else if (transition == "T0" && leaderBoardBool) {
+      page = "MainMenu";
+      transition = "T1";
+    }
+  } else if (playerNameTextInputBool && !leaderBoardBool && transition == "T0") {
     if (key == BACKSPACE) {
       textInput = removeLastCharacter(textInput);
     } else if (key == ENTER) {
@@ -341,7 +378,7 @@ void keyTyped() {
       charInput = key;
       textInput += str(charInput);
     }
-  } else if ((gameOverBool && transition == "T0" && leaderBoardBool)) {
+  } else if (transition == "T0" && leaderBoardBool) {
     page = "MainMenu";
     transition = "T1";
   }

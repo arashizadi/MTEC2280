@@ -15,12 +15,19 @@ void drawMainMenu() {
   text("Ver. " + ver, width/2 + 150, height/2 - ((height/2)/2.5) - 15);
   translate(width/2, height/2);
   noFill();
+  rect(-100, -100, 200, 60);
   rect(-100, 0, 200, 60);
   rect(-100, 100, 200, 60);
   rect(-100, 200, 200, 60);
 
   //Start Game button mouseover
-  if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 0 && mouseY - (height/2) <= 60) {
+  if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= -100 && mouseY - (height/2) <= -40) {
+    fill(255, 100);
+    rect(-100, -100, 200, 60);
+    fill(255);
+  } 
+  //Leaderboard button mouseover
+  else if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 0 && mouseY - (height/2) <= 60) {
     fill(255, 100);
     rect(-100, 0, 200, 60);
     fill(255);
@@ -37,7 +44,8 @@ void drawMainMenu() {
   }
 
   textSize(24);
-  text("Start Game", 0, 37.5);
+  text("Start Game", 0, -62.5);
+  text("Leaderboard", 0, 37.5);
   text("Sound: OFF", 0, 137.5);
   text("Exit", 0, 237.5);
   translate(-width/2, -height/2);
@@ -121,9 +129,9 @@ void drawPieces() {
 }
 
 void drawCursor() {
-  if (playerStarts && turn != 0 && playerTurn)
+  if (playerStarts && turn != 0 && playerTurn && !inGameMenu)
     cursor(o, 31, 31);
-  else if (!playerStarts && turn != 0 && playerTurn)
+  else if (!playerStarts && turn != 0 && playerTurn && !inGameMenu)
     cursor(x, 31, 31);
   else
     cursor(ARROW);
@@ -193,17 +201,59 @@ void setGradient(int x, int y, float w, float h, color c1, color c2) {
   }
 }
 
+void drawInGameMenu() {
+  setGradient(xGradient, 0, width, height, color(102, 102, 153, 130), color(153, 51, 77, 130));
+  setGradient(xGradient + width, 0, width, height, color(153, 51, 77, 130), color(102, 102, 153, 130));
+  setGradient(xGradient + width * 2, 0, width, height, color(102, 102, 153, 130), color(153, 51, 77, 130));
+  xGradient -= 3;
+  if (xGradient <= width * -2)
+    xGradient = 0;
+  rectMode(CORNER);
+  //fill(30, 30);
+  rect(0, 0, width, _height);
+  fill(30, 170);
+  rectMode(CENTER);
+  stroke(230);
+  rect(width/2, height/2 - 25, width, 300);
+  textSize(64);
+  fill(230);
+  text("GAME PAUSED", width/2, height/3+25);
+  textSize(24);
+  text("Wins: " + winCounter + " | Draws: " + drawCounter + " | Losses: " + loseCounter, width/2, height/2); 
+  rectMode(CORNER);
+  translate(width/2, height/2);
+  noFill();
+  rect(50 - (width/2), 32, 200, 60);
+  rect(50, 32, 200, 60);
+  //Resume button mouseover
+  if (mouseX - (width/2) >= 50 - (width/2) && mouseX - (width/2) <= (50 - (width/2) + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60 && transition == "T0") {
+    fill(230, 100);
+    rect(50 - (width/2), 32, 200, 60);
+   fill(230);
+  }  //MainMenu button mouseover
+  else if (mouseX - (width/2) >= 50 && mouseX - (width/2) <= (50 + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60 && transition == "T0") {
+    fill(230, 100);
+    rect(50, 32, 200, 60);
+    fill(230);
+  }
+  translate(-width/2, -height/2);
+  text("Resume", (width/2)/2, (height*2)/3-38); 
+  text("Conclude", (width/2)/2 + width/2, (height*2)/3-38); 
+  //turn = 0;
+  stroke(255);
+}
+
 void gameOver(char a) {
   rectMode(CORNER);
   if (lineAnimation >= 400 || a == 'D') {
-  fill(gameOverAccentColor, 30);
-  rect(0, 0, width, _height);
-  fill(0, 200);
-  rectMode(CENTER);
-  stroke(gameOverAccentColor);
-  rect(width/2, height/2 - 25, width, 300);
-  textSize(64);
-   }
+    fill(gameOverAccentColor, 30);
+    rect(0, 0, width, _height);
+    fill(0, 200);
+    rectMode(CENTER);
+    stroke(gameOverAccentColor);
+    rect(width/2, height/2 - 25, width, 300);
+    textSize(64);
+  }
   if (a == 'W') {
     if (!gameOverBool) {
       winCounter++;
@@ -211,8 +261,8 @@ void gameOver(char a) {
     }
     gameOverAccentColor = color(102, 255, 25);
     fill(gameOverAccentColor);
-  if (lineAnimation >= 400 || a == 'D')
-    text("YOU WON!", width/2, height/3+25);
+    if (lineAnimation >= 400 || a == 'D')
+      text("YOU WON!", width/2, height/3+25);
   } else if (a == 'L')
   {
     if (!gameOverBool) {
@@ -221,8 +271,8 @@ void gameOver(char a) {
     }
     gameOverAccentColor = color(210, 40, 30);
     fill(gameOverAccentColor);
-  if (lineAnimation >= 400 || a == 'D')
-    text("YOU LOST!", width/2, height/3+25);
+    if (lineAnimation >= 400 || a == 'D')
+      text("YOU LOST!", width/2, height/3+25);
   } else
   {
     if (!gameOverBool) {
@@ -234,32 +284,32 @@ void gameOver(char a) {
     text("DRAW!", width/2, height/3+25);
   }
   textSize(24);
-  if(lineAnimation >= 400)
-  text("Wins: " + winCounter + " | Draws: " + drawCounter + " | Losses: " + loseCounter, width/2, height/2); 
+  if (lineAnimation >= 400)
+    text("Wins: " + winCounter + " | Draws: " + drawCounter + " | Losses: " + loseCounter, width/2, height/2); 
 
   rectMode(CORNER);
-    if(lineAnimation >= 400)
-  translate(width/2, height/2);
+  if (lineAnimation >= 400)
+    translate(width/2, height/2);
   noFill();
   if (lineAnimation >= 400 || a == 'D')
-{
-  rect(50 - (width/2), 32, 200, 60);
-  rect(50, 32, 200, 60);
-  //Continue button mouseover
-  if (mouseX - (width/2) >= 50 - (width/2) && mouseX - (width/2) <= (50 - (width/2) + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60) {
-    fill(gameOverAccentColor, 100);
+  {
     rect(50 - (width/2), 32, 200, 60);
-    fill(gameOverAccentColor);
-  }  //MainMenu button mouseover
-  else if (mouseX - (width/2) >= 50 && mouseX - (width/2) <= (50 + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60) {
-    fill(gameOverAccentColor, 100);
     rect(50, 32, 200, 60);
-    fill(gameOverAccentColor);
- }
-  translate(-width/2, -height/2);
-  text("Continue", (width/2)/2, (height*2)/3-38); 
-  text("Conclude", (width/2)/2 + width/2, (height*2)/3-38); 
-}
+    //Next Round button mouseover
+    if (mouseX - (width/2) >= 50 - (width/2) && mouseX - (width/2) <= (50 - (width/2) + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60) {
+      fill(gameOverAccentColor, 100);
+      rect(50 - (width/2), 32, 200, 60);
+      fill(gameOverAccentColor);
+    }  //MainMenu button mouseover
+    else if (mouseX - (width/2) >= 50 && mouseX - (width/2) <= (50 + 200) && mouseY - (height/2) >= 32 && mouseY - (height/2) <= 32 + 60) {
+      fill(gameOverAccentColor, 100);
+      rect(50, 32, 200, 60);
+      fill(gameOverAccentColor);
+    }
+    translate(-width/2, -height/2);
+    text("Next Round", (width/2)/2, (height*2)/3-38); 
+    text("Conclude", (width/2)/2 + width/2, (height*2)/3-38);
+  }
   turn = 0;
   if (result == '.')
     result = a;
