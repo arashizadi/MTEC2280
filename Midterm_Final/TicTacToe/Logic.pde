@@ -179,6 +179,7 @@ void nextLevel() {
 }
 
 void drawScoreBoard() {
+  currentTime = millis();
   textAlign(CORNER);
   setGradient(xGradient, 0, width, height, color(102, 102, 153), color(153, 51, 77));
   setGradient(xGradient + width, 0, width, height, color(153, 51, 77), color(102, 102, 153));
@@ -278,8 +279,10 @@ void loadScreen() {
         nextLevel();
       } else if (page == "ScoreBoard")
         playerNameTextInputBool = true;
-      else if (page == "LeaderBoard")
+      else if (page == "LeaderBoard") {
+        mainMenuBool = false;
         leaderBoardBool = true;
+    }
       else if (page == "Exit")
         exit();
       transition = "T2";
