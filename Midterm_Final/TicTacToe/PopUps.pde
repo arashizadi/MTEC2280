@@ -1,67 +1,4 @@
-void drawMainMenu() {
-  setGradient(xGradient, 0, width, height, color(102, 102, 153), color(153, 51, 77));
-  setGradient(xGradient + width, 0, width, height, color(153, 51, 77), color(102, 102, 153));
-  setGradient(xGradient + width * 2, 0, width, height, color(102, 102, 153), color(153, 51, 77));
-  xGradient--;
-  if (xGradient <= width * -2)
-    xGradient = 0;
-  textAlign(CENTER);
-  textSize(64);
-  fill(255);
-  text("Tic Tac Toe", width/2, height/2 - ((height/2)/2));
-  textSize(16);
-  text("Arash Izadi's", width/2, height/4 - ((height/3)/3));
-  textSize(8);
-  text("Ver. " + ver, width/2 + 150, height/2 - ((height/2)/2.5) - 15);
-  translate(width/2, height/2);
-  noFill();
-  rect(-100, -100, 200, 60);
-  rect(-100, 0, 200, 60);
-  rect(-100, 100, 200, 60);
-  rect(-100, 200, 200, 60);
-
-  //Start Game button mouseover
-  if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= -100 && mouseY - (height/2) <= -40) {
-    fill(255, 100);
-    rect(-100, -100, 200, 60);
-    fill(255);
-  } 
-  //Leaderboard button mouseover
-  else if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 0 && mouseY - (height/2) <= 60) {
-    fill(255, 100);
-    rect(-100, 0, 200, 60);
-    fill(255);
-  }  //Option button mouseover
-  else if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 100 && mouseY - (height/2) <= 160) {
-    fill(255, 100);
-    rect(-100, 100, 200, 60);
-    fill(255);
-  }  //Exit button mouseover
-  else if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 200 && mouseY - (height/2) <= 260) {
-    fill(255, 100);
-    rect(-100, 200, 200, 60);
-    fill(255);
-  }
-
-  textSize(24);
-  text("Start Game", 0, -62.5);
-  text("Leaderboard", 0, 37.5);
-  text("Sound: OFF", 0, 137.5);
-  text("Exit", 0, 237.5);
-  translate(-width/2, -height/2);
-}
-
-void drawBoard() {
-  strokeWeight(1);
-  rectMode(CORNER);
-  stroke(200);
-  fill(40);
-  for (int i = 0; i < width; i+=200)
-    for (int j = 0; j < _height; j+=200)
-      rect(i, j, i+200, j+200);
-}
-
-void drawStatusBar() {
+void statusBar() {
   if (!playerTurn && !gameOverBool && turn != 0)
     status = "Enemy is thinking...";
   else if (enemyLastBlock == 0 && !gameOverBool && turn != 0)
@@ -71,7 +8,6 @@ void drawStatusBar() {
   else
     status = "Game over.";  
   textAlign(CORNER);
-
   fill(50, 102, 102);
   rect(0, _height, width, height - _height);
 
@@ -88,7 +24,6 @@ void drawStatusBar() {
   xGradient -= 5;
   if (xGradient <= width * -2)
     xGradient = 0;
-
   textAlign(CORNER);
   fill(255);
   textSize(26);
@@ -114,94 +49,7 @@ void drawStatusBar() {
   }
 }
 
-void drawPieces() {
-  for (int i = 0; i < pieces.length; i++)
-    if (pieces[i]=='E')
-      if (playerStarts)
-        image(x, squares[i].x, squares[i].y);
-      else
-        image(o, squares[i].x, squares[i].y);
-    else if (pieces[i]=='F')
-      if (playerStarts)
-        image(o, squares[i].x, squares[i].y);
-      else
-        image(x, squares[i].x, squares[i].y);
-}
-
-void drawCursor() {
-  if (playerStarts && turn != 0 && playerTurn && !inGameMenu)
-    cursor(o, 31, 31);
-  else if (!playerStarts && turn != 0 && playerTurn && !inGameMenu)
-    cursor(x, 31, 31);
-  else
-    cursor(ARROW);
-}
-
-void highlightBlock() {
-  if (playerTurn && selectedBlock() != 0 && pieces[selectedBlock()] == '.') {
-    fill(55);
-    rectMode(CENTER);
-    rect(squares[selectedBlock()].x, squares[selectedBlock()].y, 200, 200);
-    rectMode(CORNER);
-  }
-}
-
-boolean drawVictoryLine(String a) {
-  stroke(0 + (lineAnimation / 2));
-  strokeWeight(0 + (lineAnimation / 10));
-  switch(a) {
-    case("13"): 
-    line(100, 100, 100 + lineAnimation, 100); 
-    break;
-    case("46"): 
-    line(100, 300, 100 + lineAnimation, 300); 
-    break;
-    case("79"): 
-    line(100, 500, 100 + lineAnimation, 500); 
-    break;
-    case("17"): 
-    line(100, 100, 100, 100 + lineAnimation); 
-    break;
-    case("28"): 
-    line(300, 100, 300, 100 + lineAnimation); 
-    break;
-    case("39"): 
-    line(500, 100, 500, 100 + lineAnimation); 
-    break;
-    case("19"): 
-    line(100, 100, 100 + lineAnimation, 100 + lineAnimation); 
-    break;
-    case("73"): 
-    line(100, 500, 100 + lineAnimation, 500 - lineAnimation); 
-    break;
-    case("DRAW"):
-    break;
-  }
-  if (lineAnimation > 400)
-  {
-    strokeWeight(1);
-    gameOver(result);
-    return true;
-  } else {
-    lineAnimation += 4;
-    return false;
-  }
-}
-
-
-//SOURCE: https://processing.org/examples/lineargradient.html
-void setGradient(int x, int y, float w, float h, color c1, color c2) {
-  noFill();
-  for (int i = x; i <= x+w; i++) {
-    float inter = map(i, x, x+w, 0, 1);
-    color c = lerpColor(c1, c2, inter);
-    stroke(c);
-    line(i, y, i, y+h);
-    stroke(255);
-  }
-}
-
-void drawInGameMenu() {
+void pause() {
   setGradient(xGradient, 0, width, height, color(102, 102, 153, 130), color(153, 51, 77, 130));
   setGradient(xGradient + width, 0, width, height, color(153, 51, 77, 130), color(102, 102, 153, 130));
   setGradient(xGradient + width * 2, 0, width, height, color(102, 102, 153, 130), color(153, 51, 77, 130));
