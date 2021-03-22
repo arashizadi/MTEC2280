@@ -1,5 +1,6 @@
 void leaderBoard() {
   currentTime = millis();
+  musicCounter = 1;
   textAlign(CORNER);
   setGradient(xGradient, 0, width, height, color(102, 102, 153), color(153, 51, 77));
   setGradient(xGradient + width, 0, width, height, color(153, 51, 77), color(102, 102, 153));

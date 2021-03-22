@@ -1,11 +1,13 @@
 //TicTacToe by A.I.
-String ver = "0.63 alpha";
+String ver = "0.67 alpha";
 
+import processing.sound.*;
+SoundFile[] music = new SoundFile[8];
 PImage o, x, loadingTop, loadingBottom;
-int _height, turn = 6, currentTime = 0, savedTime = 0, enemyLastBlock = 0, playerPiecePlaced = 0, xGradient = 0, winCounter = 0, loseCounter = 0, drawCounter = 0, playerScore, yTransition1 = 0, yTransition2 = 0, yTransitionSpeed = 7;
+int _height, turn = 6, currentTime = 0, savedTime = 0, enemyLastBlock = 0, playerPiecePlaced = 0, xGradient = 0, winCounter = 0, loseCounter = 0, drawCounter = 0, playerScore, yTransition1 = 0, yTransition2 = 0, yTransitionSpeed = 7, musicCounter = 0;
 PVector[] squares = new PVector[10]; //Eligible coordinates for pieces to move into 
 char[] pieces = new char[10]; // '.' = Empty, 'E' = Enemy, 'F' = Friendly
-boolean playerStarts, playerTurn, gameOverBool, resetBool, mainMenuBool = true, playerNameTextInputBool, leaderBoardBool, showCaret, pauseBool;
+boolean playerStarts, playerTurn, gameOverBool, resetBool, mainMenuBool = true, playerNameTextInputBool, leaderBoardBool, showCaret, pauseBool, mainMenuMusic;
 char result = '.', charInput;
 String status, transition = "T0", page = "", playerName, textInput = "";
 color gameOverAccentColor = color(255);
@@ -13,6 +15,7 @@ float lineAnimation = 0;
 PFont font;
 XML scoreBoard;
 XML[] records;
+boolean[] inGameMusicBools = new boolean[7]; //first index checks if we already randomize the rest of the bools after each level 
 
 void setup() {
   size(600, 650);
@@ -21,6 +24,16 @@ void setup() {
   loadingTop = loadImage("loadingtop.png");
   loadingBottom = loadImage("loadingbottom.png");
   scoreBoard = loadXML("./ScoreBoard.xml");
+  music[0] = new SoundFile(this, "./Audio/Music/MainMenu.wav");
+  music[1] = new SoundFile(this, "./Audio/Music/Leaderboard.wav");
+  for (int i = 2; i < music.length; i++)
+    music[i] = new SoundFile(this, "./Audio/Music/BG" + (i - 1) + ".wav");
+
+  for (int i = 0; i < music.length; i++) {
+    music[i].loop();
+    music[i].amp(0);
+  }
+
   font = createFont("BAUHS93.TTF", 64);
   imageMode(CENTER);
   strokeCap(ROUND);
@@ -59,4 +72,6 @@ void draw() {
       pause();
   }
   loading();
+      music();
+     println(musicCounter);
 }

@@ -1,4 +1,5 @@
 void mainMenu() {
+  musicCounter = 0;
   setGradient(xGradient, 0, width, height, color(102, 102, 153), color(153, 51, 77));
   setGradient(xGradient + width, 0, width, height, color(153, 51, 77), color(102, 102, 153));
   setGradient(xGradient + width * 2, 0, width, height, color(102, 102, 153), color(153, 51, 77));
