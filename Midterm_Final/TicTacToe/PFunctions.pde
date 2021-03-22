@@ -14,6 +14,12 @@ void mouseReleased() {
       page = "LeaderBoard";
     }  //Option click event
     else if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 100 && mouseY - (height/2) <= 160) {
+      if (soundSetting.length() == 2)
+      savedData.getChild("SoundSetting").setContent("OFF");
+else
+      savedData.getChild("SoundSetting").setContent("ON");
+      saveXML(savedData, "./data/Save.xml");
+
     }  //Exit click event
     else if (mouseX - (width/2) >= -100 && mouseX - (width/2) <= 100 && mouseY - (height/2) >= 200 && mouseY - (height/2) <= 260) {
       transition = "T1";
@@ -69,12 +75,12 @@ void keyTyped() {
       textInput = removeLastCharacter(textInput);
     } else if (key == ENTER) {
       playerName = textInput;
-      XML newRecord = scoreBoard.addChild("Record");
+      XML newRecord = savedData.addChild("Record");
       XML newName = newRecord.addChild("Name");
       XML newScore = newRecord.addChild("Score");
       newName.setContent(textInput);
       newScore.setContent(nf(playerScore, 4));
-      saveXML(scoreBoard, "/data/ScoreBoard.xml");
+      saveXML(savedData, "./data/Save.xml");
       leaderBoardBool = true;
       playerNameTextInputBool = false;
     } else if (textWidth(textInput) < 178.0625) {

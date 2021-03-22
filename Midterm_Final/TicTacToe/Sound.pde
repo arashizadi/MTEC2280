@@ -1,152 +1,90 @@
 void music() {
-  switch(musicCounter) {
-  case 0:
-    music[0].amp(1);
-    for (int i = 1; i < music.length; i++)
+  soundSetting = savedData.getChild("SoundSetting").getContent();
+  if (soundSetting.length() == 3)
+    for (int i = 0; i < music.length; i++)
       music[i].amp(0);
-    if (!mainMenuMusic) {
-      music[0].loop();
-      music[1].loop();
-      mainMenuMusic = true;
-    }
-    break;
-
-  case 1:
-    music[0].amp(0.45);
-    music[1].amp(1);
-    for (int i = 2; i < music.length; i++)
-      music[i].amp(0);
-    if (!mainMenuMusic) {
-      music[0].loop();
-      music[1].loop();
-      mainMenuMusic = true;
-    }
-    break;
-  case 2:
-  if (mainMenuMusic) {
-    for (int i = 0; i < music.length; i++) {
-      music[i].amp(0);
-      music[i].loop();
-    }
-     mainMenuMusic = false;
-    }
-    music[2].amp(1);
-    break;
-
-  case 3:
-  case 4:
-  case 5:
-  case 6:
-  case 7:
-    music[musicCounter].amp(1);
-    break;
-  }
-
-  if (musicCounter > 7) {
-    if (musicCounter % 6 < 2)
-      musicCounter++;
-
-    if (inGameMusicBools[0]) {
-      for (int i = 1; i < inGameMusicBools.length; i++) {
-        float rng = random(10);
-        if (int(rng) % 2 == 0)
-          inGameMusicBools[i] = true;
-        else
-          inGameMusicBools[i] = false;
+  else {
+    switch(musicCounter) {
+    case 0:
+      music[0].amp(1);
+      for (int i = 1; i < music.length; i++)
+        music[i].amp(0);
+      if (!mainMenuMusic) {
+        music[0].loop();
+        music[1].loop();
+        mainMenuMusic = true;
       }
-      inGameMusicBools[0] = false;
+      break;
 
-      for (int i = 1; i < inGameMusicBools.length; i++)
-        if (inGameMusicBools[i] == true)
-          music[i+1].amp(1);
-        else
-          music[i+1].amp(0);
+    case 1:
+      music[0].amp(0.45);
+      music[1].amp(1);
+      for (int i = 2; i < music.length; i++)
+        music[i].amp(0);
+      if (!mainMenuMusic) {
+        music[0].loop();
+        music[1].loop();
+        mainMenuMusic = true;
+      }
+      break;
+    case 2:
+      if (mainMenuMusic) {
+        for (int i = 0; i < music.length; i++) {
+          music[i].amp(0);
+          music[i].loop();
+        }
+        mainMenuMusic = false;
+      }
+      music[2].amp(1);
+      break;
+
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+      music[musicCounter].amp(1);
+      break;
+    }
+
+    if (musicCounter > 7) {
+      if (musicCounter % 6 < 2)
+        musicCounter++;
+
+      if (inGameMusicBools[0]) {
+        for (int i = 1; i < inGameMusicBools.length; i++) {
+          float rng = random(10);
+          if (int(rng) % 2 == 0)
+            inGameMusicBools[i] = true;
+          else
+            inGameMusicBools[i] = false;
+        }
+        inGameMusicBools[0] = false;
+
+        for (int i = 1; i < inGameMusicBools.length; i++)
+          if (inGameMusicBools[i] == true)
+            music[i+1].amp(1);
+          else
+            music[i+1].amp(0);
+      }
     }
   }
 }
+
 /*
-void gameMusic() {
- switch((winCounter + loseCounter + drawCounter) % 11) {
- case 0: 
- music[0].stop();
- music[2].amp(1);
- break;
- case 1:
- music[2].amp(1);
- music[3].amp(1);
- break;
- case 2:
- music[2].amp(1);
- music[3].amp(1);
- music[4].amp(1);
- break;
- case 3:
- music[2].amp(1);
- music[3].amp(1);
- music[4].amp(1);
- music[5].amp(1);
- break;
- case 4:
- music[2].amp(1);
- music[3].amp(1);
- music[4].amp(1);
- music[5].amp(1);
- music[6].amp(1);
- break;
- case 5:
- music[2].amp(1);
- music[3].amp(1);
- music[4].amp(0);
- music[5].amp(0);
- music[6].amp(1);
- break;
- case 6:
- music[2].amp(1);
- music[3].amp(1);
- music[4].amp(1);
- music[5].amp(0);
- music[6].amp(1);
- break;
- case 8:
- music[2].amp(1);
- music[3].amp(0);
- music[4].amp(0);
- music[5].amp(1);
- music[6].amp(0);
- music[7].amp(1);
- break;
- case 9:
- music[2].amp(1);
- music[3].amp(1);
- music[4].amp(0);
- music[5].amp(0);
- music[6].amp(0);
- music[7].amp(1);
- break;
- case 10:
- music[2].amp(0);
- music[3].amp(0);
- music[4].amp(1);
- music[5].amp(0);
- music[6].amp(0);
- music[7].amp(1);
- break;
- }
- }
- //Music:
- //Main Menu
- //Leaderboard(MAYBE)
- //In-Game (With different lines so I can mute/unmute them each level randomly)
- //Draw
- //Lose
- //Win
+ Music:
+ Main Menu
+ Leaderboard(MAYBE)
+ In-Game (With different lines so I can mute/unmute them each level randomly)
+ Draw
+ Lose
+ Win
  
- //SFX:
- //Button Pressed
- //Loading
- //Player Move
- //Enemy Move
- //Line Animation Lose
- //Line Animation Win
- //
+ SFX:
+ Button Pressed
+ Loading
+ Player Move
+ Enemy Move
+ Line Animation Lose
+ Line Animation Win
  */

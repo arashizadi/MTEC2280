@@ -43,8 +43,8 @@ void leaderBoard() {
     if (xGradient <= width * -2)
       xGradient = 0;
     
-    scoreBoard = loadXML("ScoreBoard.xml");
-    records = scoreBoard.getChildren("Record");
+    savedData = loadXML("./data/Save.xml");
+    records = savedData.getChildren("Record");
     String[] orderedScores = new String[records.length];
     String[] originalScores = new String[records.length];
     String[] names = new String[records.length];

@@ -53,7 +53,6 @@ void loading() {
         loseCounter = 0;
         drawCounter = 0;
         pauseBool = false;
-        //music[0].loop();
       } else if (page == "Game") {
         mainMenuBool = false;
         nextLevel();

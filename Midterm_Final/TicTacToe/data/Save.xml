@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScoreBoard>
+<Save>
+  <SoundSetting>ON</SoundSetting>
   <Record>
     <Name>BOT</Name>
     <Score>0000</Score>
@@ -12,4 +13,4 @@
     <Name>BOT</Name>
     <Score>0000</Score>
   </Record>
-</ScoreBoard>
+</Save>
