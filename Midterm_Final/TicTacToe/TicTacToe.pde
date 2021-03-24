@@ -1,5 +1,5 @@
 //TicTacToe by A.I.
-String ver = "0.68 alpha";
+String ver = "0.78 alpha";
 
 import processing.sound.*;
 SoundFile[] music = new SoundFile[8], sfx = new SoundFile[9];
