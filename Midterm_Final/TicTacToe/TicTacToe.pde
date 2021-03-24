@@ -2,12 +2,12 @@
 String ver = "0.68 alpha";
 
 import processing.sound.*;
-SoundFile[] music = new SoundFile[8];
+SoundFile[] music = new SoundFile[8], sfx = new SoundFile[9];
 PImage o, x, loadingTop, loadingBottom;
 int _height, turn = 6, currentTime = 0, savedTime = 0, enemyLastBlock = 0, playerPiecePlaced = 0, xGradient = 0, winCounter = 0, loseCounter = 0, drawCounter = 0, playerScore, yTransition1 = 0, yTransition2 = 0, yTransitionSpeed = 7, musicCounter = 0;
 PVector[] squares = new PVector[10]; //Eligible coordinates for pieces to move into 
 char[] pieces = new char[10]; // '.' = Empty, 'E' = Enemy, 'F' = Friendly
-boolean playerStarts, playerTurn, gameOverBool, resetBool, mainMenuBool = true, playerNameTextInputBool, leaderBoardBool, showCaret, pauseBool, mainMenuMusic, soundOn = true;
+boolean playerStarts, playerTurn, gameOverBool, resetBool, mainMenuBool = true, playerNameTextInputBool, leaderBoardBool, showCaret, pauseBool, mainMenuMusic, soundOn = true, sfxLineAnimation;
 char result = '.', charInput;
 String status, transition = "T0", page = "", playerName, textInput = "", soundSetting;
 color gameOverAccentColor = color(255);
@@ -34,6 +34,25 @@ void setup() {
     music[i].amp(0);
   }
 
+  sfx[0] = new SoundFile(this, "./Audio/SFX/Button.wav");
+  sfx[1] = new SoundFile(this, "./Audio/SFX/StartGame.wav");
+  sfx[2] = new SoundFile(this, "./Audio/SFX/NewRecord.wav");
+  sfx[3] = new SoundFile(this, "./Audio/SFX/PlayerMove.wav");
+  sfx[4] = new SoundFile(this, "./Audio/SFX/EnemyMove.wav");
+  sfx[5] = new SoundFile(this, "./Audio/SFX/LineAnimation.wav");
+  sfx[6] = new SoundFile(this, "./Audio/SFX/Win.wav");
+  sfx[7] = new SoundFile(this, "./Audio/SFX/Draw.wav");
+  sfx[8] = new SoundFile(this, "./Audio/SFX/Lose.wav");
+
+  for (int i = 0; i < sfx.length; i++) {
+    sfx[i].play();
+    sfx[i].amp(0);
+    sfx[i].stop();
+    sfx[i].amp(1);
+  }
+  sfx[5].amp(0.5);
+  //lpf = new LowPass(this);
+  
   font = createFont("BAUHS93.TTF", 64);
   imageMode(CENTER);
   strokeCap(ROUND);

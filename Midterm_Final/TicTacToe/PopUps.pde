@@ -57,7 +57,6 @@ void pause() {
   if (xGradient <= width * -2)
     xGradient = 0;
   rectMode(CORNER);
-  //fill(30, 30);
   rect(0, 0, width, _height);
   fill(30, 170);
   rectMode(CENTER);
@@ -103,7 +102,8 @@ void gameOver(char a) {
     textSize(64);
   }
   if (a == 'W') {
-    if (!gameOverBool) {
+    if (!gameOverBool && lineAnimation >= 400) {
+      sfx[6].play();
       winCounter++;
       gameOverBool = true;
     }
@@ -111,9 +111,9 @@ void gameOver(char a) {
     fill(gameOverAccentColor);
     if (lineAnimation >= 400 || a == 'D')
       text("YOU WON!", width/2, height/3+25);
-  } else if (a == 'L')
-  {
-    if (!gameOverBool) {
+  } else if (a == 'L') {
+    if (!gameOverBool && lineAnimation >= 400) {
+      sfx[8].play();
       loseCounter++;
       gameOverBool = true;
     }
@@ -124,6 +124,7 @@ void gameOver(char a) {
   } else
   {
     if (!gameOverBool) {
+      sfx[7].play();
       drawCounter++;
       gameOverBool = true;
     }

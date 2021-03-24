@@ -47,15 +47,15 @@ boolean drawVictoryLine(String a) {
   stroke(0 + (lineAnimation / 2));
   strokeWeight(0 + (lineAnimation / 10));
   switch(a) {
-    case("13"): line(100, 100, 100 + lineAnimation, 100); break;
-    case("46"): line(100, 300, 100 + lineAnimation, 300); break;
-    case("79"): line(100, 500, 100 + lineAnimation, 500); break;
-    case("17"): line(100, 100, 100, 100 + lineAnimation); break;
-    case("28"): line(300, 100, 300, 100 + lineAnimation); break;
-    case("39"): line(500, 100, 500, 100 + lineAnimation); break;
-    case("19"): line(100, 100, 100 + lineAnimation, 100 + lineAnimation); break;
-    case("73"): line(100, 500, 100 + lineAnimation, 500 - lineAnimation); break;
-    case("DRAW"): break;
+    case("13"): if (!sfxLineAnimation) sfx[5].play(); sfxLineAnimation = true; line(100, 100, 100 + lineAnimation, 100); break;
+    case("46"): if (!sfxLineAnimation) sfx[5].play(); sfxLineAnimation = true; line(100, 300, 100 + lineAnimation, 300); break;
+    case("79"): if (!sfxLineAnimation) sfx[5].play(); sfxLineAnimation = true; line(100, 500, 100 + lineAnimation, 500); break;
+    case("17"): if (!sfxLineAnimation) sfx[5].play(); sfxLineAnimation = true; line(100, 100, 100, 100 + lineAnimation); break;
+    case("28"): if (!sfxLineAnimation) sfx[5].play(); sfxLineAnimation = true; line(300, 100, 300, 100 + lineAnimation); break;
+    case("39"): if (!sfxLineAnimation) sfx[5].play(); sfxLineAnimation = true; line(500, 100, 500, 100 + lineAnimation); break;
+    case("19"): if (!sfxLineAnimation) sfx[5].play(); sfxLineAnimation = true; line(100, 100, 100 + lineAnimation, 100 + lineAnimation); break;
+    case("73"): if (!sfxLineAnimation) sfx[5].play(); sfxLineAnimation = true; line(100, 500, 100 + lineAnimation, 500 - lineAnimation); break;
+    case(""): lineAnimation = 401; break;
   }
   if (lineAnimation > 400) {
     strokeWeight(1);

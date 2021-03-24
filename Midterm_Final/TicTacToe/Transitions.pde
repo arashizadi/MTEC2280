@@ -1,11 +1,10 @@
 void nextLevel() {
   inGameMusicBools[0] = true;
-  if (mainMenuMusic) {
+  if (mainMenuMusic)
     musicCounter = 2;
-  }
   else
     musicCounter++;
-  
+  sfxLineAnimation = false;
   gameOverBool = false;
   resetBool = false;
   turn = 6;

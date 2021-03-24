@@ -7,6 +7,7 @@ void enemyMove() {
       int block = int(random(1, squares.length));
       if (!playerTurn && pieces[block] == '.') {
         image(o, squares[block].x, squares[block].y);
+        sfx[4].play();
         turn--;
         pieces[block] = 'E';
         enemyLastBlock = block;
@@ -60,6 +61,7 @@ void playerMove() {
     selectedBlock();
     highlightBlock();
     if (mousePressed && playerTurn && selectedBlock() != 0 && pieces[selectedBlock()] == '.') {
+      sfx[3].play();
       turn--;
       playerPiecePlaced++;
       pieces[selectedBlock()] = 'F';

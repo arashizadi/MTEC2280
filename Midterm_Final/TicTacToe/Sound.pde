@@ -1,9 +1,14 @@
 void music() {
   soundSetting = savedData.getChild("SoundSetting").getContent();
-  if (soundSetting.length() == 3)
+  if (soundSetting.length() == 3) {
     for (int i = 0; i < music.length; i++)
       music[i].amp(0);
+          for (int i = 0; i < sfx.length; i++)
+      sfx[i].amp(0);
+    }
   else {
+      for (int i = 0; i < sfx.length; i++)
+      sfx[i].amp(1);
     switch(musicCounter) {
     case 0:
       music[0].amp(1);
@@ -70,21 +75,3 @@ void music() {
     }
   }
 }
-
-/*
- Music:
- Main Menu
- Leaderboard(MAYBE)
- In-Game (With different lines so I can mute/unmute them each level randomly)
- Draw
- Lose
- Win
- 
- SFX:
- Button Pressed
- Loading
- Player Move
- Enemy Move
- Line Animation Lose
- Line Animation Win
- */
