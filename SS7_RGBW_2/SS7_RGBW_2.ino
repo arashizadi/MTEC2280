@@ -42,7 +42,8 @@ void loop() {
       }
       if (currentTime - savedTime > phaseTime[phase][1] && currentTime - savedTime < phaseTime[phase][2]) {
         //turn on green LEDs
-        digitalWrite(LEDs[3], HIGH);
+        for (float k = 0; k < 254; k+= 0.02)
+          analogWrite(LEDs[3], k);
         digitalWrite(LEDs[4], HIGH);
       }
       if (currentTime - savedTime > phaseTime[phase][2] && currentTime - savedTime < phaseTime[phase][3]) {
