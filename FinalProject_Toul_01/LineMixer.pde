@@ -1,5 +1,5 @@
 class LineMixer {
-  boolean muted;
+  boolean muted, adsrBool = true;
   float freq, amp, savedAmp, pan, a, d, s, r, delayTime, delayFeedback, reverbRoom, reverbDamp, reverbWet;
   boolean [] outputs = {false, false, false, false, false, false, false}; //0 = sine, 1 = tri, 2 = sqr, 3 = saw, 4 = white, 5 = pink, 6 = brown;
   int numberOfActiveOutputs = 0, input;
@@ -76,6 +76,15 @@ class LineMixer {
     freq();
     amp();
     pan();
+    if (adsrBool)
+    adsr();
+    filters();
+  }
+  void play(float _userFreq){
+    freq(_userFreq);
+    amp();
+    pan();
+    if (adsrBool)
     adsr();
     filters();
   }
@@ -93,6 +102,9 @@ class LineMixer {
     adsr.play(white, a, d, s, r);
     adsr.play(pink, a, d, s, r);
     adsr.play(brown, a, d, s, r);
+  }
+  void toggleAdsr(){
+    adsrBool = !adsrBool;
   }
   void amp() {
     if (outputs[0])
@@ -146,6 +158,13 @@ class LineMixer {
     outputs[6] = !outputs[6];
   }  
   void freq() {
+    sin.freq(freq);
+    tri.freq(freq);
+    sqr.freq(freq);
+    saw.freq(freq);
+  }
+    void freq(float _userFreq) {
+    freq = _userFreq;
     sin.freq(freq);
     tri.freq(freq);
     sqr.freq(freq);
