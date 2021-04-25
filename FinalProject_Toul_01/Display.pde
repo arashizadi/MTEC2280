@@ -11,9 +11,9 @@ void display(byte screen) {
     textSize(64);
     fill(bg);
     stroke(bg);
-    rect(600, 200, 100, 100);
+    rect(520, 200, 270, 100);
     fill(fg);
-    text(floor(_oct), 650, 255);
+    text(floor(_oct) + " | " + floor(_oct+1), 650, 255);
     break;
   case 1:
     title = "Frequency";

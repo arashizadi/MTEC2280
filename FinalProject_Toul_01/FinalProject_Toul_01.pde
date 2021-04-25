@@ -49,17 +49,22 @@ void draw() {
 void keyPressed() {
   if (key == 'A' || key == 'a')
   {
-    one.setFreq(getFreq(0, 3));
+    one.setFreq(getFreq(0, int(_oct)));
     one.play();
     //one.play(220);
   }
   if (key == 'Z' || key == 'z')
   {
-    one.setFreq(getFreq(13, 3));
+    one.setFreq(getFreq(13, int(_oct)));
     one.play();
   }
   if (key == 'S' || key == 's')
   {
+    one.toggleAdsr();
+    println("toggled");
+  }
+  if (key == '+' || key == '=')
+    {
     one.toggleAdsr();
     println("toggled");
   }
@@ -70,7 +75,7 @@ void mouseReleased() {
   case 0:
     break;
   case 1:
-    if (_oct != 8)
+    if (_oct != 7)
       _oct++;
     break;
   case 2:
