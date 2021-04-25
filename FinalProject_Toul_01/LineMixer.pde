@@ -77,15 +77,15 @@ class LineMixer {
     amp();
     pan();
     if (adsrBool)
-    adsr();
+      adsr();
     filters();
   }
-  void play(float _userFreq){
+  void play(float _userFreq) {
     freq(_userFreq);
     amp();
     pan();
     if (adsrBool)
-    adsr();
+      adsr();
     filters();
   }
   void pan() {
@@ -103,7 +103,7 @@ class LineMixer {
     adsr.play(pink, a, d, s, r);
     adsr.play(brown, a, d, s, r);
   }
-  void toggleAdsr(){
+  void toggleAdsr() {
     adsrBool = !adsrBool;
   }
   void amp() {
@@ -163,7 +163,7 @@ class LineMixer {
     sqr.freq(freq);
     saw.freq(freq);
   }
-    void freq(float _userFreq) {
+  void freq(float _userFreq) {
     freq = _userFreq;
     sin.freq(freq);
     tri.freq(freq);
@@ -175,14 +175,6 @@ class LineMixer {
     hp.freq(lpf[input]);
     delay.set(delayTime, delayFeedback);
     reverb.set(reverbRoom, reverbDamp, reverbWet);
-  }
-  void setFreq(String _userFreq) {
-    for (int i = 0; i < freqLabel.length; i++) {
-      if (_userFreq == freqLabel[i]) {
-        freq = freqNumber[i];
-        break;
-      }
-    }
   }
   void setFreq(float _userFreq) {
     freq = _userFreq;

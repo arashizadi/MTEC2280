@@ -5,6 +5,7 @@ void display(byte screen) {
     helper = "OSC 1, OSC 3";
     window(245, 0, 300, height);
     window(0, 0, width/2, height);
+    if (_oct != 8)
     button(570, 100, "Octave +", 1);
     button(570, 320, "Octave -", 2);
     textSize(64);

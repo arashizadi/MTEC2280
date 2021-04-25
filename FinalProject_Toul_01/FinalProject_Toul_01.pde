@@ -21,7 +21,7 @@ void setup() {
   one = new LineMixer(1, new SinOsc(this), new TriOsc(this), new SqrOsc(this), new SawOsc(this), new WhiteNoise(this), new PinkNoise(this), new BrownNoise(this), new LowPass(this), new HighPass(this), new Env(this), new Delay(this), new Reverb(this));
   one.toggleSin();
   one.amp = 0.1f;
-  one.setFreq("C1");
+  one.setFreq(getFreq(0, 1));
   one.toggleTri();
   one.a = 1;
   one.d = 1;
@@ -30,16 +30,34 @@ void setup() {
   one.adsr();
   one.play();
 }      
-
+float getFreq(int note, int oct) {
+  if (note > 12)
+    return freqNumber[oct+4][note-13];
+  else
+    return freqNumber[oct+3][note];
+}
+String getNote(int note, int oct) {
+  if (note > 12)
+    return freqLabel[oct+4][note-13];
+  else
+    return freqLabel[oct+3][note];
+}
 void draw() {
   display(screen);
 }
 
 void keyPressed() {
   if (key == 'A' || key == 'a')
-    one.play(200);
+  {
+    one.setFreq(getFreq(0, 3));
+    one.play();
+    //one.play(220);
+  }
   if (key == 'Z' || key == 'z')
-    one.play(400);
+  {
+    one.setFreq(getFreq(13, 3));
+    one.play();
+  }
   if (key == 'S' || key == 's')
   {
     one.toggleAdsr();
@@ -63,17 +81,4 @@ void mouseReleased() {
     break;
   }
   mouseUp = 0;
-}
-
-float getFreq(int note, int oct) {
-  if (note > 12)
-    return freqNumber[oct-2][note-13];
-  else
-    return freqNumber[oct-3][note];
-}
-String getNote(int note, int oct) {
-  if (note > 12)
-    return freqLabel[oct-2][note-13];
-  else
-    return freqLabel[oct-3][note];
 }
