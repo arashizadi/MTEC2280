@@ -1,11 +1,11 @@
 void window(float x, float y, float w, float h) {
   x += 5;
   y += 22;
-  h -= 89;
   w -= 10;
+  h -= 89;
   translate(x, y);
   noFill();
-  strokeWeight(0.1);
+  strokeWeight(1);
   stroke(fg);
   rect(x, y, w, h, 20);
   translate(-x, -y);

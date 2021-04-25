@@ -177,7 +177,7 @@ class LineMixer {
     reverb.set(reverbRoom, reverbDamp, reverbWet);
   }
   void setFreq(float _userFreq) {
-    freq = _userFreq;
+    freq = _userFreq + _pitch;
   }
   void mute() {
     savedAmp = amp;
