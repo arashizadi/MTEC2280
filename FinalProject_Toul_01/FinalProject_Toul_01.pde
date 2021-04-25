@@ -1,4 +1,4 @@
- //<>//
+ //<>// //<>//
 import processing.sound.*;
 
 //placeholders for arduino data;
@@ -11,7 +11,7 @@ final float[][] freqNumber = {{0}, {4.08, 4.33, 4.58, 4.86, 5.15, 5.45, 5.78, 6.
 byte[] mixer = {0, 1, 2, 3};
 LineMixer one, two, three, four;
 
-byte screen = 0;
+byte screen = 2;
 int mouseUp = 0;
 int [] lastMouseReleased = {0, 0, 0, 0};
 String title, helper;
@@ -50,15 +50,15 @@ void draw() {
 }
 
 void keyPressed() {
-    if (key == '+')
+  if (key == '+')
     screen++;
-    if (key == '-')
+  if (key == '-')
     screen--;
   if (key == 'A' || key == 'a')
   {
     _note = getFreq(0, int(_oct));
     one.setFreq(_note);
-    one.play(); //<>//
+    one.play();
   }
   if (key == 'Z' || key == 'z')
   {
@@ -87,6 +87,27 @@ void mouseReleased() {
     break;
   case 3:
     _pitch = 0;
+    break;
+  case 4:
+    one.toggleSin();
+    break;
+  case 5:
+    one.toggleTri();
+    break;
+  case 6:
+    one.toggleSqr();
+    break;
+  case 7:
+    one.toggleSaw();
+    break;
+  case 8:
+    one.toggleWhite();
+    break;
+  case 9:
+    one.togglePink();
+    break;
+  case 10:
+    one.toggleBrown();
     break;
   }
   mouseUp = 0;
