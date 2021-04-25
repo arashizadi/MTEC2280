@@ -50,6 +50,10 @@ void draw() {
 }
 
 void keyPressed() {
+    if (key == '+')
+    screen++;
+    if (key == '-')
+    screen--;
   if (key == 'A' || key == 'a')
   {
     _note = getFreq(0, int(_oct));
