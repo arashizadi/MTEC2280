@@ -4,14 +4,14 @@ void window(float x, float y, float w, float h) {
   h -= 89;
   w -= 10;
   translate(x, y);
-    println("X: " + x +"Y: " + y +"W: " + w +"H: " + h );
   noFill();
   strokeWeight(0.1);
+  stroke(fg);
   rect(x, y, w, h, 20);
   translate(-x, -y);
 }
 
-void button(float x, float y, String label, int screen) {
+void button(float x, float y, String label, int func) {
   translate(x, y);
   noFill();
   rect(0, 0, label.length() * 20, 50);
@@ -29,7 +29,8 @@ void button(float x, float y, String label, int screen) {
     textSize(20);
     textAlign(CENTER);
     text(label, label.length() * 10, 0 + 31);
-    mouseUp = screen;
+    mouseUp = func;
+
   } else {
     fill(bg);
     rect(0, 0, label.length() * 20, 50);
@@ -37,7 +38,6 @@ void button(float x, float y, String label, int screen) {
     textSize(20);
     textAlign(CENTER);
     text(label, label.length() * 10, 0 + 31);
-    mouseUp = 0;
   }
   translate(-x, -y);
 }
