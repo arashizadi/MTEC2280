@@ -11,7 +11,7 @@ final float[][] freqNumber = {{0}, {4.08, 4.33, 4.58, 4.86, 5.15, 5.45, 5.78, 6.
 byte[] mixer = {0, 1, 2, 3};
 LineMixer one, two, three, four;
 
-byte screen = 2;
+byte screen = 2, selectedLine = 0;
 int mouseUp = 0;
 int [] lastMouseReleased = {0, 0, 0, 0};
 String title, helper;
@@ -89,25 +89,74 @@ void mouseReleased() {
     _pitch = 0;
     break;
   case 4:
-    one.toggleSin();
+    if (selectedLine == 0)
+      one.toggleSin();
+    else if (selectedLine == 1)
+      two.toggleSin();
+    else if (selectedLine == 2)
+      three.toggleSin();
+    else if (selectedLine == 3)
+      four.toggleSin();
     break;
   case 5:
-    one.toggleTri();
+    if (selectedLine == 0)
+      one.toggleTri();
+    else if (selectedLine == 1)
+      two.toggleTri();
+    else if (selectedLine == 2)
+      three.toggleTri();
+    else if (selectedLine == 3)
+      four.toggleTri();
     break;
   case 6:
-    one.toggleSqr();
+    if (selectedLine == 0)
+      one.toggleSqr();
+    else if (selectedLine == 1)
+      two.toggleSqr();
+    else if (selectedLine == 2)
+      three.toggleSqr();
+    else if (selectedLine == 3)
+      four.toggleSqr();
     break;
   case 7:
-    one.toggleSaw();
+    if (selectedLine == 0)
+      one.toggleSaw();
+    else if (selectedLine == 1)
+      two.toggleSaw();
+    else if (selectedLine == 2)
+      three.toggleSaw();
+    else if (selectedLine == 3)
+      four.toggleSaw();
     break;
   case 8:
-    one.toggleWhite();
+    if (selectedLine == 0)
+      one.toggleWhite();
+    else if (selectedLine == 1)
+      two.toggleWhite();
+    else if (selectedLine == 2)
+      three.toggleWhite();
+    else if (selectedLine == 3)
+      four.toggleWhite();
     break;
   case 9:
-    one.togglePink();
+    if (selectedLine == 0)
+      one.togglePink();
+    else if (selectedLine == 1)
+      two.togglePink();
+    else if (selectedLine == 2)
+      three.togglePink();
+    else if (selectedLine == 3)
+      four.togglePink();
     break;
   case 10:
-    one.toggleBrown();
+    if (selectedLine == 0)
+      one.toggleBrown();
+    else if (selectedLine == 1)
+      two.toggleBrown();
+    else if (selectedLine == 2)
+      three.toggleBrown();
+    else if (selectedLine == 3)
+      four.toggleBrown();
     break;
   }
   mouseUp = 0;

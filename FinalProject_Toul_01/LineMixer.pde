@@ -253,4 +253,33 @@ class LineMixer {
     if (hpf[input] - 1f > 0)
       hpf[input] -= 1;
   }
+  String getActiveOuts() {
+    String _return = "";  
+    for (int i = 0; i < outputs.length; i++)
+      if (outputs[i])
+        switch (i) {
+        case 0:
+          _return += "Sine, ";
+          break;
+        case 1:
+          _return += "Triangle, ";
+          break;
+        case 2:
+          _return += "Square, ";
+          break;
+        case 3:
+          _return += "Saw, ";
+          break;
+        case 4:
+          _return += "White, ";
+          break;
+        case 5:
+          _return += "Pink, ";
+          break;
+        case 6:
+          _return += "Brown, ";
+          break;
+        }
+    return _return.substring(0, _return.length() - 2);
+  }
 }
