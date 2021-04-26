@@ -1,4 +1,26 @@
 void displayOsc (byte line) {
+  title = "Line " + selectedLine+1 + " : Oscillators and Noises";
+  if (selectedLine == 0)
+    if (one.getActiveOuts() != "")
+      helper = "Active Outputs: " + one.getActiveOuts();
+    else
+      helper = "No Active Output";
+  else if (selectedLine == 1)
+    if (two.getActiveOuts() != "")
+      helper = "Active Outputs: " + two.getActiveOuts();
+    else
+      helper = "No Active Output";
+  else if (selectedLine == 2)
+    if (three.getActiveOuts() != "")
+      helper = "Active Outputs: " + three.getActiveOuts();
+    else
+      helper = "No Active Output";
+  else if (selectedLine == 3)
+    if (four.getActiveOuts() != "")
+      helper = "Active Outputs: " + four.getActiveOuts();
+    else
+      helper = "No Active Output";
+
   textAlign(CENTER);
   textSize(24);
   stroke(0);
@@ -110,10 +132,8 @@ void displayOsc (byte line) {
       fill(bg);
       text("Brownian ▒", 677 + 35/5, height/4 + 265);
     }
-  }
-  
-  else if (line == 1){
-   if (mouseX >= 0 && mouseX <= 280 
+  } else if (line == 1) {
+    if (mouseX >= 0 && mouseX <= 280 
       && mouseY >= 35 && mouseY <= height/2 && mousePressed)
       mouseUp = 4;
     if (two.outputs[0]) {
@@ -219,9 +239,8 @@ void displayOsc (byte line) {
       fill(bg);
       text("Brownian ▒", 677 + 35/5, height/4 + 265);
     }
-  }
-else if (line == 2){
- if (mouseX >= 0 && mouseX <= 280 
+  } else if (line == 2) {
+    if (mouseX >= 0 && mouseX <= 280 
       && mouseY >= 35 && mouseY <= height/2 && mousePressed)
       mouseUp = 4;
     if (three.outputs[0]) {
@@ -327,9 +346,8 @@ else if (line == 2){
       fill(bg);
       text("Brownian ▒", 677 + 35/5, height/4 + 265);
     }
-}
-  else if (line == 3){
-     if (mouseX >= 0 && mouseX <= 280 
+  } else if (line == 3) {
+    if (mouseX >= 0 && mouseX <= 280 
       && mouseY >= 35 && mouseY <= height/2 && mousePressed)
       mouseUp = 4;
     if (four.outputs[0]) {

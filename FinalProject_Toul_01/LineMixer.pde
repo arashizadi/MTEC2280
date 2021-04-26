@@ -73,20 +73,21 @@ class LineMixer {
     r = _r;
   }
   void play() {
+        filters();
+
     freq();
     amp();
     pan();
     if (adsrBool)
       adsr();
-    filters();
   }
   void play(float _userFreq) {
+        filters();
     freq(_userFreq);
     amp();
     pan();
     if (adsrBool)
       adsr();
-    filters();
   }
   void pan() {
     sin.pan(pan);
@@ -172,7 +173,7 @@ class LineMixer {
   }
   void filters() {
     lp.freq(lpf[input]);
-    hp.freq(lpf[input]);
+    hp.freq(hpf[input]);
     delay.set(delayTime, delayFeedback);
     reverb.set(reverbRoom, reverbDamp, reverbWet);
   }
@@ -230,28 +231,10 @@ class LineMixer {
       pan -= 0.1;
   }
   void setLpf(float _userLpf) {
-    if (_userLpf > 8000 || _userLpf < 0)
       lpf[input] = _userLpf;
   }
-  void lpfUp() {
-    if (lpf[input] + 1f < 8000)
-      lpf[input] += 1;
-  }
-  void lpfDown() {
-    if (lpf[input] - 1f > 0)
-      lpf[input] -= 1;
-  }
   void setHpf(float _userHpf) {
-    if (_userHpf > 8000 || _userHpf < 0)
       hpf[input] = _userHpf;
-  }
-  void hpfUp() {
-    if (hpf[input] + 1f < 8000)
-      hpf[input] += 1;
-  }
-  void hpfDown() {
-    if (hpf[input] - 1f > 0)
-      hpf[input] -= 1;
   }
   String getActiveOuts() {
     String _return = "";  
@@ -280,6 +263,8 @@ class LineMixer {
           _return += "Brown, ";
           break;
         }
-    return _return.substring(0, _return.length() - 2);
+    if (_return != "")
+      return _return.substring(0, _return.length() - 2);
+    else return "";
   }
 }
