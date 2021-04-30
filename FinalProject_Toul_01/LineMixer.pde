@@ -45,14 +45,6 @@ class LineMixer {
     white.play();
     pink.play();
     brown.play();
-    lp.process(sin);
-    lp.process(tri);
-    lp.process(sqr);
-    lp.process(saw);
-    hp.process(sin);
-    hp.process(tri);
-    hp.process(sqr);
-    hp.process(saw);
     delayTime = _delayTime; 
     delayFeedback = _delayFeedback;
     delay.process(sin, 0);
@@ -73,21 +65,32 @@ class LineMixer {
     r = _r;
   }
   void play() {
-        filters();
-
+    //filters();
     freq();
     amp();
     pan();
     if (adsrBool)
       adsr();
+    lp.process(sin, lpf[input]);
+    lp.process(tri, lpf[input]);
+    lp.process(sqr, lpf[input]);
+    lp.process(saw, lpf[input]);
   }
   void play(float _userFreq) {
-        filters();
+    filters();
     freq(_userFreq);
     amp();
     pan();
     if (adsrBool)
       adsr();
+    lp.process(sin, lpf[input]);
+    lp.process(tri, lpf[input]);
+    lp.process(sqr, lpf[input]);
+    lp.process(saw, lpf[input]);
+    hp.process(sin, hpf[input]);
+    hp.process(tri, hpf[input]);
+    hp.process(sqr, hpf[input]);
+    hp.process(saw, hpf[input]);
   }
   void pan() {
     sin.pan(pan);
@@ -172,13 +175,22 @@ class LineMixer {
     saw.freq(freq);
   }
   void filters() {
-    lp.freq(lpf[input]);
-    hp.freq(hpf[input]);
+
+    lp.process(sin, lpf[input]);
+    lp.process(tri, lpf[input]);
+    lp.process(sqr, lpf[input]);
+    lp.process(saw, lpf[input]);
     delay.set(delayTime, delayFeedback);
     reverb.set(reverbRoom, reverbDamp, reverbWet);
   }
   void setFreq(float _userFreq) {
     freq = _userFreq + _pitch;
+  }
+  void setLpf(float a) {
+    lp.freq(a);
+  }
+  void setHpf(float a) {
+    hp.freq(a);
   }
   void mute() {
     savedAmp = amp;
@@ -229,12 +241,6 @@ class LineMixer {
   void panDown() {
     if (pan - 0.1f > -1)
       pan -= 0.1;
-  }
-  void setLpf(float _userLpf) {
-      lpf[input] = _userLpf;
-  }
-  void setHpf(float _userHpf) {
-      hpf[input] = _userHpf;
   }
   String getActiveOuts() {
     String _return = "";  
