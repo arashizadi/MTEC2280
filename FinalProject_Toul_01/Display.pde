@@ -13,6 +13,13 @@ void display(byte screen) {
     break;
     case 3:
     displayPf(selectedLine);
+    break;
+    case 4:
+    displayReverb();
+    break;
+    case 5:
+    displayDelay();
+    break;
   }
   fill(0);
   rect(0, 0, width, 35);

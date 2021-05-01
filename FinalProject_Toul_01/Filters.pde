@@ -1,6 +1,15 @@
 void displayPf(byte a) {
   title = "Line " + a+1 + ": Lowpass and Highpass Filter";
-  helper = "";
+  helper = "Active Dynamic Effects: ";
+  if (lpf[a] != 8000)
+    helper += "Low-pass Filter, ";
+  if (hpf[a] != 50)
+    helper += "High-pass Filter, ";
+  if (helper == "Active Dynamic Effects: ")
+    helper = "No Active Dynamic Effects";
+  else
+    helper = helper.substring(0, helper.length() - 2);
+  textSize(48);
 
   window(0, 15, width-10, height/2);
   noFill();
@@ -17,12 +26,16 @@ void displayPf(byte a) {
       _lp = mouseX;
     strokeWeight(2);
     fill(fg);
-    println(_lpFreq);
+    rect(_lp, height/4-10, 100, 80, 4);
+    fill(bg);
+    text("LPF", _lp + 11, height/4+48);
   } else {
     strokeWeight(1);
     fill(bg);
+    rect(_lp, height/4-10, 100, 80, 4);
+    fill(fg);
+    text("LPF", _lp + 11, height/4+48);
   }
-  rect(_lp, height/4-10, 100, 80, 4);
   lpf[a] = _lpFreq;
 
   window(0, height/5+10, width-10, height/2);
@@ -40,12 +53,24 @@ void displayPf(byte a) {
       _hp = mouseX;
     strokeWeight(2);
     fill(fg);
+    rect(_hp, height/5+85 + height/4-10, 100, 80, 4);
+    fill(bg);
+    text("HPF", _hp+6, height/5+85 + height/4+48);
   } else {
     strokeWeight(1);
     fill(bg);
+    rect(_hp, height/5+85 + height/4-10, 100, 80, 4);
+    fill(fg);
+    text("HPF", _hp+6, height/5+85 + height/4+48);
   }
-  rect(_hp,  height/5+85 + height/4-10, 100, 80, 4);
-  hpf[a] = _hpFreq;
-  println(hpf[a]);
 
+  hpf[a] = _hpFreq;
+  println("LP: " + lpf[a]);
+  println("HP: " + hpf[a]);
+}
+
+void displayReverb() {
+}
+
+void displayDelay() {
 }
