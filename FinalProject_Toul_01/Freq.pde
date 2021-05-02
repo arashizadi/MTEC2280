@@ -1,6 +1,5 @@
     void displayFreq(){
     title = "Frequency";
-    helper = "OSC 1, OSC 3";
     window(245, 0, 300, height);
     window(0, 0, width/2, height);
     strokeWeight(2);
