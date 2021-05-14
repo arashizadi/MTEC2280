@@ -49,13 +49,13 @@ class LineMixer {
     delay.process(tri, _delayFeedback, _delayTime);
     delay.process(sqr, _delayFeedback, _delayTime);
     delay.process(saw, _delayFeedback, _delayTime);
-    reverbRoom = _reverbRoom; 
-    reverbDamp = _reverbDamp;
-    reverbWet = _reverbWet;
-    reverb.process(sin);
-    reverb.process(tri);
-    reverb.process(sqr);
-    reverb.process(saw);
+  reverb.room(_reverbRoom);
+  reverb.damp(_reverbDamp);
+  reverb.wet(_reverbWet);
+  reverb.process(sin);
+  reverb.process(tri);
+  reverb.process(sqr);
+  reverb.process(saw);
     amp = _amp[input];
     a = _a;
     d = _d;
@@ -63,7 +63,7 @@ class LineMixer {
     r = _r;
   }
   void play() {
-    filters();
+    //filters();
     freq();
     amp();
     pan();
@@ -83,7 +83,7 @@ class LineMixer {
     delay.process(saw, _delayFeedback, _delayTime);
   }
   void play(float _userFreq) {
-    filters();
+    //filters();
     freq(_userFreq);
     amp();
     pan();
@@ -98,6 +98,7 @@ class LineMixer {
     hp.process(sqr, hpf[input]);
     hp.process(saw, hpf[input]);
     delay.set(_delayTime, _delayFeedback);
+    reverb.set(_reverbRoom, _reverbDamp, _reverbWet);
   }
   void pan() {
     sin.pan(pan);
@@ -182,7 +183,6 @@ class LineMixer {
     saw.freq(freq);
   }
   void filters() {
-    reverb.set(reverbRoom, reverbDamp, reverbWet);
   }
   void setFreq(float _userFreq) {
     freq = _userFreq + _pitch;

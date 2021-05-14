@@ -16,24 +16,26 @@ import java.io.IOException;
 
 public class FinalProject_Toul_01 extends PApplet {
 
- //<>// //<>//
+//<>// //<>//
 
 
 //placeholders for arduino data;
 boolean _adsrBool;
+boolean[] revdelStatus = {false, false}, lines = {false, false, false, false};
 float[]_freq = {150f, 150f, 150f, 150f}, lpf = {0f, 0f, 0f, 0f}, hpf = {0f, 0f, 0f, 0f}, _amp = {0f, 0f, 0f, 0f}, _pan = {0.5f, 0.5f, 0.5f, 0.5f};
-float _a = 0, _d = 0, _s = 0, _r = 0, _delayTime = 0, _delayFeedback = 0, _reverbRoom = 0, _reverbDamp = 0, _reverbWet = 0, _oct = 3, _note, _pitch = 0, _lp = 676, _lpFreq;
+float _a = 0, _d = 0, _s = 0, _r = 0, _delayTime = 0, _delayFeedback = 0, _reverbRoom = 0, _reverbDamp = 0, _reverbWet = 0, _oct = 3, _note, _pitch = 0, lpSlider = 676, hpSlider = 24, reverbRoomSizeSlider = 24, reverbDampSlider = 24, reverbWetSlider = 24, delayTimeSlider = 24, delayFeedbackSlider = 24, _lpFreq, _hpFreq;
 final byte NUMBER_OF_AMPS = 4;
 final String[][] freqLabel = {{"Off"}, {"C-2", "C#-2/Db-2", "D-2", "D#-2/Eb-2", "E-2", "F-2", "F#-2/Gb-2", "G-2", "G#-2/Ab-2", "A-2", "A#-2/Bb-2", "B-2"}, {"C-1", "C#-1/Db-1", "D-1", "D#-1/Eb-1", "E-1", "F-1", "F#-1/Gb-1", "G-1", "G#-1/Ab-1", "A-1", "A#-1/Bb-1", "B-1"}, {"C0", "C#0/Db0", "D0", "D#0/Eb0", "E0", "F0", "F#0/Gb0", "G0", "G#0/Ab0", "A0", "A#0/Bb0", "B0"}, {"C1", "C#1/Db1", "D1", "D#1/Eb1", "E1", "F1", "F#1/Gb1", "G1", "G#1/Ab1", "A1", "A#1/Bb1", "B1"}, {"C2", "C#2/Db2", "D2", "D#2/Eb2", "E2", "F2", "F#2/Gb2", "G2", "G#2/Ab2", "A2", "A#2/Bb2", "B2"}, {"C3", "C#3/Db3", "D3", "D#3/Eb3", "E3", "F3", "F#3/Gb3", "G3", "G#3/Ab3", "A3", "A#3/Bb3", "B3"}, {"C4", "C#4/Db4", "D4", "D#4/Eb", "4 E4", "F4", "F#4/Gb4", "G4", "G#4/Ab4", "A4", "A#4/Bb4", "B4"}, {"C5", "C#5/Db5", "D5", "D#5/Eb5", "E5", "F5", "F#5/Gb5", "G5", "G#5/Ab5", "A5", "A#5/Bb5", "B5"}, {"C6", "C#6/Db6", "D6", "D#6/Eb6", "E6", "F6", "F#6/Gb6", "G6", "G#6/Ab6", "A6", "A#6/Bb6", "B6"}, {"C7", "C#7/Db7", "D7", "D#7/Eb7", "E7", "F7", "F#7/Gb7", "G7", "G#7/Ab7", "A7", "A#7/Bb7", "B7"}, {"C8", "C#8/Db8", "D8", "D#8/Eb8", "E8", "F8", "F#8/Gb8", "G8", "G#8/Ab8", "A8", "A#8/Bb8", "B8"}};
 final float[][] freqNumber = {{0}, {4.08f, 4.33f, 4.58f, 4.86f, 5.15f, 5.45f, 5.78f, 6.12f, 6.48f, 6.875f, 7.283f, 7.71f}, {8.17f, 8.66f, 9.17f, 9.72f, 10.30086f, 10.91f, 11.56f, 12.24f, 12.978f, 13.75f, 14.56762f, 15.43f}, {16.35f, 17.32f, 18.35f, 19.45f, 20.6f, 21.83f, 23.12f, 24.5f, 25.96f, 27.5f, 29.14f, 30.87f}, {32.7f, 34.65f, 36.71f, 38.89f, 41.2f, 43.65f, 46.25f, 49, 51.91f, 55, 58.27f, 61.74f}, {65.41f, 69.3f, 73.42f, 77.78f, 82.41f, 87.31f, 92.5f, 98, 103.83f, 110, 116.54f, 123.47f}, {130.81f, 138.59f, 146.83f, 155.56f, 164.81f, 174.61f, 185, 196, 207.65f, 220, 233.08f, 246.94f}, {261.63f, 277.18f, 293.66f, 311.13f, 329.63f, 349.23f, 369.99f, 392, 415.3f, 440, 466.16f, 493.88f}, {523.25f, 554.37f, 587.33f, 622.25f, 659.25f, 698.46f, 739.99f, 783.99f, 830.61f, 880, 932.33f, 987.77f}, {1046.5f, 1108.73f, 1174.66f, 1244.51f, 1318.51f, 1396.91f, 1479.98f, 1567.98f, 1661.22f, 1760, 1864.66f, 1975.53f}, {2093, 2217.46f, 2349.32f, 2489.02f, 2637.02f, 2793.83f, 2959.96f, 3135.96f, 3322.44f, 3520, 3729.31f, 3951.07f}, {4186.01f, 4434.92f, 4698.63f, 4978.03f, 5274.04f, 5587.65f, 5919.91f, 6271.93f, 6644.88f, 7040, 7458.62f, 7902.13f}};
 byte[] mixer = {0, 1, 2, 3};
 LineMixer one, two, three, four;
 
-byte screen = 3, selectedLine = 0;
+byte screen = 0, selectedLine = 0;
 int mouseUp = 0;
 int [] lastMouseReleased = {0, 0, 0, 0};
 String title, helper;
 int bg = (0xffCCCCCC), fg = (0xff111111); 
+
 public void setup() {
   
   one = new LineMixer(0, new SinOsc(this), new TriOsc(this), new SqrOsc(this), new SawOsc(this), new WhiteNoise(this), new PinkNoise(this), new BrownNoise(this), new LowPass(this), new HighPass(this), new Env(this), new Delay(this), new Reverb(this));
@@ -47,7 +49,7 @@ public void setup() {
   one.r = 1;
   one.adsr();
   one.play();
-    one.filters();
+  one.filters();
 
   two = new LineMixer(1, new SinOsc(this), new TriOsc(this), new SqrOsc(this), new SawOsc(this), new WhiteNoise(this), new PinkNoise(this), new BrownNoise(this), new LowPass(this), new HighPass(this), new Env(this), new Delay(this), new Reverb(this));
   three = new LineMixer(2, new SinOsc(this), new TriOsc(this), new SqrOsc(this), new SawOsc(this), new WhiteNoise(this), new PinkNoise(this), new BrownNoise(this), new LowPass(this), new HighPass(this), new Env(this), new Delay(this), new Reverb(this));
@@ -181,12 +183,83 @@ public void mouseReleased() {
   }
   mouseUp = 0;
 }
-public void display(byte screen) {
-  rect(0, 0, width, height);
+public void textBanner (byte screen) {
   switch (screen) {
   case 0:
     title = "Main Menu";
-    helper = "OSC 1, OSC 3";
+    helper = "Active Oscillators: ";
+    int i;
+    for (i = 0; i < one.outputs.length; i++) {
+      lines[0] = false;
+      if (one.outputs[i] == true) {
+        lines[0] = true;
+        break;
+      }
+    }
+    for (i = 0; i < two.outputs.length; i++) {
+      lines[1] = false;
+      if (two.outputs[i] == true) {
+        lines[1] = true;
+        break;
+      }
+    }
+    for (i = 0; i < three.outputs.length; i++) {
+      lines[2] = false;
+      if (three.outputs[i] == true) {
+        lines[2] = true;
+        break;
+      }
+    }
+    for (i = 0; i < four.outputs.length; i++) {
+      lines[3] = false;
+      if (four.outputs[i] == true) {
+        lines[3] = true;
+        break;
+      }
+    }
+    for (i = 0; i < lines.length; i++)
+      if (lines[i] == true)
+        helper += "Line " + lines[i]+1 + ", ";
+    if (helper == "Active Oscillators: ")
+      helper = "No Active Oscillators";
+    else
+      helper = helper.substring(0, helper.length() - 2);
+    break;
+  case 1:
+    break;
+  case 2:
+    break;
+  case 3:
+    break;
+  case 4:
+  case 5:
+    helper = "Active Time-Based Effects: ";
+    if (_reverbWet != 0)
+      revdelStatus[0] = true;
+    else
+      revdelStatus[0] = false;
+    if (_delayFeedback != 0)
+      revdelStatus[1] = true;
+    else
+      revdelStatus[1] = false;
+    if (revdelStatus[0])
+      helper += "Reverb, ";
+    if (revdelStatus[1])
+      helper += "Delay, ";
+    if (helper == "Active Time-Based Effects: ")
+      helper = "No Active Time-Based Effects";
+    else
+      helper = helper.substring(0, helper.length() - 2);
+    break;
+  }
+  text(helper, width/2, 8 + height - 35 + 35/2);
+}
+public void display(byte screen) {
+  rect(0, 0, width, height);
+    textBanner(screen);
+
+  switch (screen) {
+  case 0:
     break;
   case 1:
     displayFreq();
@@ -194,8 +267,15 @@ public void display(byte screen) {
   case 2:
     displayOsc(selectedLine);
     break;
-    case 3:
+  case 3:
     displayPf(selectedLine);
+    break;
+  case 4:
+    displayReverb();
+    break;
+  case 5:
+    displayDelay();
+    break;
   }
   fill(0);
   rect(0, 0, width, 35);
@@ -204,64 +284,220 @@ public void display(byte screen) {
   textAlign(CENTER);
   textSize(18);
   text(title.toUpperCase(), width/2, 35/2 + 8);
+  textAlign(CORNER);
+  textAlign(CENTER);
+  textSize(18);
+  text(title.toUpperCase(), width/2, 35/2 + 8);
   text(helper, width/2, 8 + height - 35 + 35/2);
   textAlign(CORNER);
 }
 public void displayPf(byte a) {
   title = "Line " + a+1 + ": Lowpass and Highpass Filter";
-  helper = "";
-
+  helper = "Active Dynamic Effects: ";
+  if (lpf[a] != 8000)
+    helper += "Low-pass Filter, ";
+  if (hpf[a] != 50)
+    helper += "High-pass Filter, ";
+  if (helper == "Active Dynamic Effects: ")
+    helper = "No Active Dynamic Effects";
+  else
+    helper = helper.substring(0, helper.length() - 2);
+  textSize(48);
   window(0, 15, width-10, height/2);
   noFill();
   strokeWeight(2);
   rect(25, height/4+20, width - 50, 20, 5);
-  _lpFreq = map(_lp, 24, 676, 0, 8000);
+  //_reverbRoom = 0, _reverbDamp = 0, _reverbWet
+  _lpFreq = map(lpSlider, 24, 676, 20, 8000);
   if (mouseX >= 0 && mouseX < width && mouseY > height/4-10 && mouseY < height/4+70 && mousePressed)
   {
     if (mouseX >= 676)
-      _lp = 676;
+      lpSlider = 676;
     else if (mouseX < 24)
-      _lp = 24;
+      lpSlider = 24;
     else
-      _lp = mouseX;
+      lpSlider = mouseX;
     strokeWeight(2);
     fill(fg);
-    println(_lpFreq);
+    rect(lpSlider, height/4-10, 100, 80, 4);
+    fill(bg);
+    text("LPF", lpSlider + 11, height/4+48);
   } else {
     strokeWeight(1);
     fill(bg);
+    rect(lpSlider, height/4-10, 100, 80, 4);
+    fill(fg);
+    text("LPF", lpSlider + 11, height/4+48);
   }
-  rect(_lp, height/4-10, 100, 80, 4);
   lpf[a] = _lpFreq;
 
   window(0, height/5+10, width-10, height/2);
-  window(0, height/5+10, width-10, height/2);
   noFill();
   strokeWeight(2);
-  rect(25, height/4+20, width - 50, 20, 5);
-  _lpFreq = map(_lp, 24, 676, 0, 8000);
-  if (mouseX >= 0 && mouseX < width && mouseY > height/4-10 && mouseY < height/4+70 && mousePressed)
+  rect(25, height/5+85 + height/4+20, width - 50, 20, 5);
+  _hpFreq = map(hpSlider, 676, 24, 8000, 50);
+  if (mouseX >= 0 && mouseX < width && mouseY >  height/5+85 + height/4-10 && mouseY <  height/5+85 + height/4+70 && mousePressed)
   {
     if (mouseX >= 676)
-      _lp = 676;
+      hpSlider = 676;
     else if (mouseX < 24)
-      _lp = 24;
+      hpSlider = 24;
     else
-      _lp = mouseX;
+      hpSlider = mouseX;
     strokeWeight(2);
     fill(fg);
+    rect(hpSlider, height/5+85 + height/4-10, 100, 80, 4);
+    fill(bg);
+    text("HPF", hpSlider+6, height/5+85 + height/4+48);
   } else {
     strokeWeight(1);
     fill(bg);
+    rect(hpSlider, height/5+85 + height/4-10, 100, 80, 4);
+    fill(fg);
+    text("HPF", hpSlider+6, height/5+85 + height/4+48);
   }
-  rect(_lp, height/4-10, 100, 80, 4);
-  lpf[a] =   _lpFreq;
-      println(lpf[a]);
 
+  hpf[a] = _hpFreq;
+  println("LP: " + lpf[a]);
+  println("HP: " + hpf[a]);
+}
+
+public void displayReverb() {
+  title = "Main Reverb";
+  textSize(32);
+  window(0, -2, width-10, height/2 - 20);
+  rect(25, height/4-23, width - 50, 20, 5);
+  _reverbRoom = map(reverbRoomSizeSlider, 24, 676, 0, 1.0f);
+  if (mouseX >= 0 && mouseX < width && mouseY > height/4-56 && mouseY < height/4+56 && mousePressed)
+  {
+    if (mouseX >= 676)
+      reverbRoomSizeSlider = 676;
+    else if (mouseX < 24)
+      reverbRoomSizeSlider = 24;
+    else
+      reverbRoomSizeSlider = mouseX;
+    strokeWeight(2);
+    fill(fg);
+    rect(reverbRoomSizeSlider, height/4-56, 100, 80, 4);
+    fill(bg);
+    text("Room", reverbRoomSizeSlider+6, 115);
+  } else {
+    strokeWeight(1);
+    fill(bg);
+    rect(reverbRoomSizeSlider, height/4-56, 100, 80, 4);
+    fill(fg);
+    text("Room", reverbRoomSizeSlider+6, 115);
+  }
+  window(0, 65, width-10, height/2 - 20);
+  rect(25, height/2-9, width - 50, 20, 5);
+  _reverbDamp = map(reverbDampSlider, 24, 676, 0, 1.0f);
+  if (mouseX >= 0 && mouseX < width && mouseY > height/2-39 && mouseY < height/2+61 && mousePressed)
+  {
+    if (mouseX >= 676)
+      reverbDampSlider = 676;
+    else if (mouseX < 24)
+      reverbDampSlider = 24;
+    else
+      reverbDampSlider = mouseX;
+    strokeWeight(2);
+    fill(fg);
+    rect(reverbDampSlider, height/2-39, 100, 80, 4);
+    fill(bg);
+    text("Damp", reverbDampSlider+4, height/4 + 130);
+  } else {
+    strokeWeight(1);
+    fill(bg);
+    rect(reverbDampSlider, height/2-39, 100, 80, 4);
+    fill(fg);
+    text("Damp", reverbDampSlider+4, height/4 + 130);
+  }
+  window(0, 132, width-10, height/2 - 20);
+  rect(25, height/2+126, width - 50, 20, 5);
+  _reverbWet = map(reverbWetSlider, 24, 676, 0, 1.0f);
+  if (mouseX >= 0 && mouseX < width && mouseY > height/2+95 && mouseY < height/2+195 && mousePressed)
+  {
+    if (mouseX >= 676)
+      reverbWetSlider = 676;
+    else if (mouseX < 24)
+      reverbWetSlider = 24;
+    else
+      reverbWetSlider = mouseX;
+    strokeWeight(2);
+    fill(fg);
+    rect(reverbWetSlider, height/2+95, 100, 80, 4);
+    fill(bg);
+    text("Wet", reverbWetSlider+22, height/2 + 145);
+  } else {
+    strokeWeight(1);
+    fill(bg);
+    rect(reverbWetSlider, height/2+95, 100, 80, 4);
+    fill(fg);
+    text("Wet", reverbWetSlider+22, height/2 + 145);
+  }
+  one.reverb.room(_reverbRoom);
+  one.reverb.damp(_reverbDamp);
+  one.reverb.wet(_reverbWet);
+}
+
+public void displayDelay() {
+  title = "Main Delay";
+  textSize(32);
+  window(0, 15, width-10, height/2);
+  noFill();
+  strokeWeight(2);
+  rect(25, height/4+20, width - 50, 20, 5);
+  _delayTime = map(delayTimeSlider, 24, 676, 0, 24);
+  if (mouseX >= 0 && mouseX < width && mouseY > height/4-10 && mouseY < height/4+70 && mousePressed)
+  {
+    if (mouseX >= 676)
+      delayTimeSlider = 676;
+    else if (mouseX < 24)
+      delayTimeSlider = 24;
+    else
+      delayTimeSlider = mouseX;
+    strokeWeight(2);
+    fill(fg);
+    rect(delayTimeSlider, height/4-10, 100, 80, 4);
+    fill(bg);
+    text("Time", delayTimeSlider + 11, height/4+41);
+  } else {
+    strokeWeight(1);
+    fill(bg);
+    rect(delayTimeSlider, height/4-10, 100, 80, 4);
+    fill(fg);
+    text("Time", delayTimeSlider + 11, height/4+41);
+  }
+  window(0, height/5+10, width-10, height/2);
+  noFill();
+  strokeWeight(2);
+  rect(25, height/5+85 + height/4+20, width - 50, 20, 5);
+  _delayFeedback = map(delayFeedbackSlider, 24, 646, 0, 24);
+  textSize(18);
+  if (mouseX >= 0 && mouseX < width && mouseY >  height/5+85 + height/4-10 && mouseY <  height/5+85 + height/4+70 && mousePressed)
+  {
+    if (mouseX >= 676)
+      delayFeedbackSlider = 676;
+    else if (mouseX < 24)
+      delayFeedbackSlider = 24;
+    else
+      delayFeedbackSlider = mouseX;
+    strokeWeight(2);
+    fill(fg);
+    rect(delayFeedbackSlider, height/5+85 + height/4-10, 100, 80, 4);
+    fill(bg);
+    text("Feedback", delayFeedbackSlider+10, height/5+75 + height/4+48);
+  } else {
+    strokeWeight(1);
+    fill(bg);
+    rect(delayFeedbackSlider, height/5+85 + height/4-10, 100, 80, 4);
+    fill(fg);
+    text("Feedback", delayFeedbackSlider+10, height/5+75 + height/4+48);
+  }
+  println("Feedback: " + _delayFeedback);
+  println("Time: " + _delayTime);
 }
     public void displayFreq(){
     title = "Frequency";
-    helper = "OSC 1, OSC 3";
     window(245, 0, 300, height);
     window(0, 0, width/2, height);
     strokeWeight(2);
@@ -379,19 +615,17 @@ class LineMixer {
     white.play();
     pink.play();
     brown.play();
-    delayTime = _delayTime; 
-    delayFeedback = _delayFeedback;
-    delay.process(sin, 0);
-    delay.process(tri, 0);
-    delay.process(sqr, 0);
-    delay.process(saw, 0);
-    reverbRoom = _reverbRoom; 
-    reverbDamp = _reverbDamp;
-    reverbWet = _reverbWet;
-    reverb.process(sin);
-    reverb.process(tri);
-    reverb.process(sqr);
-    reverb.process(saw);
+    delay.process(sin, _delayFeedback, _delayTime);
+    delay.process(tri, _delayFeedback, _delayTime);
+    delay.process(sqr, _delayFeedback, _delayTime);
+    delay.process(saw, _delayFeedback, _delayTime);
+  reverb.room(_reverbRoom);
+  reverb.damp(_reverbDamp);
+  reverb.wet(_reverbWet);
+  reverb.process(sin);
+  reverb.process(tri);
+  reverb.process(sqr);
+  reverb.process(saw);
     amp = _amp[input];
     a = _a;
     d = _d;
@@ -409,9 +643,17 @@ class LineMixer {
     lp.process(tri, lpf[input]);
     lp.process(sqr, lpf[input]);
     lp.process(saw, lpf[input]);
+    hp.process(sin, hpf[input]);
+    hp.process(tri, hpf[input]);
+    hp.process(sqr, hpf[input]);
+    hp.process(saw, hpf[input]);
+    delay.process(sin, _delayFeedback, _delayTime);
+    delay.process(tri, _delayFeedback, _delayTime);
+    delay.process(sqr, _delayFeedback, _delayTime);
+    delay.process(saw, _delayFeedback, _delayTime);
   }
   public void play(float _userFreq) {
-    filters();
+    //filters();
     freq(_userFreq);
     amp();
     pan();
@@ -425,6 +667,8 @@ class LineMixer {
     hp.process(tri, hpf[input]);
     hp.process(sqr, hpf[input]);
     hp.process(saw, hpf[input]);
+    delay.set(_delayTime, _delayFeedback);
+    reverb.set(_reverbRoom, _reverbDamp, _reverbWet);
   }
   public void pan() {
     sin.pan(pan);
@@ -509,13 +753,6 @@ class LineMixer {
     saw.freq(freq);
   }
   public void filters() {
-
-    lp.process(sin, lpf[input]);
-    lp.process(tri, lpf[input]);
-    lp.process(sqr, lpf[input]);
-    lp.process(saw, lpf[input]);
-    delay.set(delayTime, delayFeedback);
-    reverb.set(reverbRoom, reverbDamp, reverbWet);
   }
   public void setFreq(float _userFreq) {
     freq = _userFreq + _pitch;

@@ -12,11 +12,12 @@ final float[][] freqNumber = {{0}, {4.08, 4.33, 4.58, 4.86, 5.15, 5.45, 5.78, 6.
 byte[] mixer = {0, 1, 2, 3};
 LineMixer one, two, three, four;
 
-byte screen = 4, selectedLine = 0;
+byte screen = 0, selectedLine = 0;
 int mouseUp = 0;
 int [] lastMouseReleased = {0, 0, 0, 0};
 String title, helper;
 color bg = (#CCCCCC), fg = (#111111); 
+
 void setup() {
   size(800, 480);
   one = new LineMixer(0, new SinOsc(this), new TriOsc(this), new SqrOsc(this), new SawOsc(this), new WhiteNoise(this), new PinkNoise(this), new BrownNoise(this), new LowPass(this), new HighPass(this), new Env(this), new Delay(this), new Reverb(this));

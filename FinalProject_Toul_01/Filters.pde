@@ -74,7 +74,7 @@ void displayReverb() {
   textSize(32);
   window(0, -2, width-10, height/2 - 20);
   rect(25, height/4-23, width - 50, 20, 5);
-  _reverbRoom = map(reverbRoomSizeSlider, 24, 676, 0, 24);
+  _reverbRoom = map(reverbRoomSizeSlider, 24, 676, 0, 1.0);
   if (mouseX >= 0 && mouseX < width && mouseY > height/4-56 && mouseY < height/4+56 && mousePressed)
   {
     if (mouseX >= 676)
@@ -97,7 +97,7 @@ void displayReverb() {
   }
   window(0, 65, width-10, height/2 - 20);
   rect(25, height/2-9, width - 50, 20, 5);
-  _reverbDamp = map(reverbDampSlider, 24, 676, 0, 24);
+  _reverbDamp = map(reverbDampSlider, 24, 676, 0, 1.0);
   if (mouseX >= 0 && mouseX < width && mouseY > height/2-39 && mouseY < height/2+61 && mousePressed)
   {
     if (mouseX >= 676)
@@ -120,7 +120,7 @@ void displayReverb() {
   }
   window(0, 132, width-10, height/2 - 20);
   rect(25, height/2+126, width - 50, 20, 5);
-  _reverbWet = map(reverbWetSlider, 24, 676, 0, 1);
+  _reverbWet = map(reverbWetSlider, 24, 676, 0, 1.0);
   if (mouseX >= 0 && mouseX < width && mouseY > height/2+95 && mouseY < height/2+195 && mousePressed)
   {
     if (mouseX >= 676)
@@ -141,6 +141,9 @@ void displayReverb() {
     fill(fg);
     text("Wet", reverbWetSlider+22, height/2 + 145);
   }
+  one.reverb.room(_reverbRoom);
+  one.reverb.damp(_reverbDamp);
+  one.reverb.wet(_reverbWet);
 }
 
 void displayDelay() {
